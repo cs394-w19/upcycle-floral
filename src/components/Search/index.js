@@ -7,10 +7,10 @@ const Search = () => (
     <h1>Search</h1>
     <input type='text' className="searchbar"/>
     <div className="button searchbut">
-      <a class="searchmore" href="#"> Search </a>
+      <a class="searchmore" href="/"> Search </a>
     </div>
     <div className="button surpriseme">
-      <a class="searchmore" href="#"> Surprise Me! </a>
+      <a class="searchmore" href="/"> Surprise Me! </a>
     </div>
   </div>
 );

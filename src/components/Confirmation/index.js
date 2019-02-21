@@ -32,7 +32,7 @@ class Confirmation extends Component {
         <ConfirmationBanner />
         <div className="confirmation">
           <h1>Your Order</h1>
-          <img src={staticImage} />
+          <img src={staticImage} alt="staticImage"/>
           <p className="instructions">
             "{this.state.title}" will be available for pickup {this.state.startTime.getMonth()+1}/{this.state.startTime.getDate()} between {((this.state.startTime.getHours()-1)%12)+1}:{this.state.startTime.getMinutes()<10?"0"+this.state.startTime.getMinutes():this.state.startTime.getMinutes()}{this.state.startTime.getHours()>11?"pm":"am"} and {((this.state.endTime.getHours()-1)%12)+1}:{this.state.endTime.getMinutes()<10?"0"+this.state.endTime.getMinutes():this.state.endTime.getMinutes()}{this.state.endTime.getHours()>11?"pm":"am"}.
           </p>
@@ -102,7 +102,7 @@ class SearchMore extends Component {
     return (
 
       <div className="button searchmore">
-        <a className="searchmore" href="#"> Back to Search</a>
+        <a className="searchmore" href="/"> Back to Search</a>
       </div>
     )
   }
@@ -112,7 +112,7 @@ class Cancel extends Component {
   render() {
     return (
       <div className="button cancel">
-        <a className="cancel" href="#">Cancel Reservation</a>
+        <a className="cancel" href="/">Cancel Reservation</a>
       </div>
     )
   }
