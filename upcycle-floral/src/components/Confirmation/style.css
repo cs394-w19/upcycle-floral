@@ -24,7 +24,7 @@
 	width:80%;
 	margin:5px 10%;
 	font-size:16pt;
-	text-align:left;
+	text-align:center;
 }
 .confirmation .saved {
 	text-align:center;
@@ -51,12 +51,23 @@
 	background:#e5c029;
 	box-shadow:0px 1px 3px rgba(0,0,0,.3);
 }
+.contact {
+	/* background:#cc4b4b; */
+	background:#e5c029;
+	text-decoration: none;
+}
+.contact:hover {
+	/* background:#d95050; */
+	background:#e5c029;
+}
 .cancel {
-	background:#cc4b4b;
+	/* background:#cc4b4b; */
+	background:#e5c029;
 	text-decoration: none;
 }
 .cancel:hover {
-	background:#d95050;
+	/* background:#d95050; */
+	background:#e5c029;
 }
 .seereservation {
 	margin:20px 0px 40px 0px;
@@ -105,22 +116,44 @@ div.hidden {
 .helperbuttons {
 	text-align:center;
 }
+
+.helperbuttons .react-add-to-calendar:hover {
+	/* background:#d95050; */
+	background:#e5c029;
+	box-shadow:0px 1px 3px rgba(0,0,0,.3);
+}
+
 .helperbuttons .react-add-to-calendar {
 	color:black;
 	display:inline-block;
 	margin:10px;
+
+	background:#e5c029;
+
+	/* width:200px; */
+	/* margin: 15px auto; */
+	text-align:center;
+	color:white;
+	border-radius:3px;
+	font-size:14pt;
+	font-weight:800;
+	/* padding:10px; */
+	cursor:pointer;
+	box-shadow:0px 1px 2px rgba(0,0,0,.2);
+
+
 }
 .helperbuttons .react-add-to-calendar__wrapper {
-	border:1px solid rgba(0,0,0,.3);
+	/* border:1px solid rgba(0,0,0,.3); */
 	padding:8px;
 	border-radius:2px;
 	box-shadow:0px 1px 2px rgba(0,0,0,.1);
 }
 .helperbuttons .react-add-to-calendar__dropdown {
-	border:1px solid rgba(0,0,0,.4);
-	box-shadow:0px 1px 3px rgba(0,0,0,.2);
+	/* border:1px solid rgba(0,0,0,.4); */
+	/* box-shadow:0px 1px 3px rgba(0,0,0,.2); */
 	margin-top:-3px;
-	background:white;
+	background:#d6b327;
 }
 .helperbuttons .react-add-to-calendar__dropdown ul {
 	padding:0px;
@@ -132,22 +165,50 @@ div.hidden {
 }
 .helperbuttons .react-add-to-calendar__dropdown li a {
 	text-decoration:none;
-	color:black;
+	color:white;
 }
-.helperbuttons .react-add-to-calendar__dropdown li a:hover {
+/* .helperbuttons .react-add-to-calendar__dropdown li a:hover {
 	text-decoration:none;
-	color:black;
-	background:#ddd;
+	/* color:black; */
+	/* background:#e5c029;
+	box-shadow:0px 1px 3px rgba(0,0,0,.3);
 }
+	*/
+.helperbuttons .react-add-to-calendar__dropdown li :hover {
+	text-decoration:none;
+	/* color:black; */
+	background:#e5c029;
+	box-shadow:0px 1px 3px rgba(0,0,0,.3);
+}
+
+
+.helperbuttons .getdirections:hover {
+	/* background:#d95050; */
+	background:#e5c029;
+	box-shadow:0px 1px 3px rgba(0,0,0,.3);
+}
+
 .helperbuttons .getdirections {
-	color:black;
 	display:inline-block;
 	margin:10px;
-	border:1px solid rgba(0,0,0,.3);
+	/* border:1px solid rgba(0,0,0,.3); */
 	padding:8px;
 	border-radius:2px;
 	box-shadow:0px 1px 2px rgba(0,0,0,.1);
 	text-decoration:none;
+
+	background:#e5c029;
+	/* width:200px; */
+	/* margin: 15px auto; */
+	text-align:center;
+	color:white;
+	font-size:14pt;
+	font-weight:800;
+	/* padding:10px; */
+	cursor:pointer;
+
+
+
 }
 
 a.searchmore{
@@ -156,6 +217,12 @@ a.searchmore{
 }
 
 a.cancel{
+		 color:white;
+     text-decoration: none;
+}
+
+
+a.contact{
 		 color:white;
      text-decoration: none;
 }

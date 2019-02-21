@@ -27,20 +27,25 @@ class Confirmation extends Component {
             "Birthday Blooms" will be available for pickup 4/21 between 10:00am and 12:00pm.
           </p>
           <p className="saved">
-            You saved $35.00!
+            You saved $49.99!
           </p>
           <div className="helperbuttons">
+            <GetDirections address={google_link}/>
+            <br />
+            <Link to={`/#`} style={{textDecoration: 'none'}}>
+              <Cancel />
+            </Link>
+
+              <Contact />
+
             <AddToCalendar event={this.state.event}/>
             <br />
-            <GetDirections address={google_link}/>
           </div>
           <SeeReservation />
           <Link to={`/search`} style={{textDecoration: 'none'}}>
-            <SearchMore />
+            {/*<SearchMore />*/}
           </Link>
-          <Link to={`/search`} style={{textDecoration: 'none'}}>
-            <Cancel />
-          </Link>
+
         </div>
       </div>
     );
@@ -102,11 +107,21 @@ class SearchMore extends Component {
   }
 }
 
+class Contact extends Component {
+  render() {
+    return (
+      <div className="button contact">
+        <a class="contact" href="#">Contact</a>
+      </div>
+    )
+  }
+}
+
 class Cancel extends Component {
   render() {
     return (
       <div className="button cancel">
-        <a class="cancel" href="#">Cancel</a>
+        <a class="cancel" href="#">Cancel Reservation</a>
       </div>
     )
   }
