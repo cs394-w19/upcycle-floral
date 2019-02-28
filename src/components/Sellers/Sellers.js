@@ -59,7 +59,7 @@ class Sellers extends Component {
                 	withIcon={true}
                 	buttonText='Upload pictures of your flowers'
                 	onChange={this.onDrop}
-                	imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                	imgExtension={['.jpg', '.gif', '.png', '.gif', '.jpeg']}
                 	maxFileSize={5242880}
                   withPreview={true}
                   label='Max file size: 5mb, Accepted: .jpg | .png | .gif'
