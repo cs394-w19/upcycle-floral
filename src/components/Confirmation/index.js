@@ -24,7 +24,8 @@ class Confirmation extends Component {
       estimatedWidth: "12",
       estimatedLength: "18",
       estimatedHeight: "20",
-      estimatedWeight:"20"
+      estimatedWeight:"20",
+      instruction: "Entrance is located on the right side of the building. Please ring the door bell and ask for Sanders to fetch the flowers."
     };
   }
 
@@ -108,6 +109,10 @@ class SeeReservation extends Component {
               <tr>
                 <td>Estimated Sizing&Weight:</td>
                 <td>{this.props.data.estimatedWidth}"x{this.props.data.estimatedLength}"x{this.props.data.estimatedHeight}"&{this.props.data.estimatedWeight}lb</td>
+              </tr>
+              <tr>
+                <td>Instruction for Pick Up:</td>
+                <td>{this.props.data.instruction}</td>
               </tr>
             </tbody>
           </table>
