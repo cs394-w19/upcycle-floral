@@ -20,7 +20,11 @@ class Confirmation extends Component {
       originalDate: new Date('2019-04-16'),
       numberOfFlowers: 50,
       showBanner: true,
-      originalUse: "Sanders/Wingo wedding"
+      originalUse: "Sanders/Wingo Wedding",
+      estimatedWidth: "12",
+      estimatedLength: "18",
+      estimatedHeight: "20",
+      estimatedWeight:"20"
     };
   }
 
@@ -100,6 +104,10 @@ class SeeReservation extends Component {
               <tr>
                 <td>Pickup Address:</td>
                 <td>{this.props.data.location}</td>
+              </tr>
+              <tr>
+                <td>Estimated Sizing&Weight:</td>
+                <td>{this.props.data.estimatedWidth}"x{this.props.data.estimatedLength}"x{this.props.data.estimatedHeight}"&{this.props.data.estimatedWeight}lb</td>
               </tr>
             </tbody>
           </table>
