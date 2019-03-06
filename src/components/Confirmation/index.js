@@ -19,7 +19,8 @@ class Confirmation extends Component {
       purchaseValue: 0,
       originalDate: new Date('2019-04-16'),
       numberOfFlowers: 50,
-      showBanner: true
+      showBanner: true,
+      originalUse: "Sanders/Wingo wedding"
     };
   }
 
@@ -87,6 +88,10 @@ class SeeReservation extends Component {
               <tr>
                 <td>Number of Flowers:</td>
                 <td>{this.props.data.numberOfFlowers}</td>
+              </tr>
+              <tr>
+                <td>Originally Used For:</td>
+                <td>{this.props.data.originalUse}</td>
               </tr>
               <tr>
                 <td>Original Date of Arrangement:</td>
