@@ -32,18 +32,35 @@ class Filters extends Component {
     };
 
     this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.updateSearchResults = this.updateSearchResults.bind(this);
   }
 
-  handleTypeChange = (evt, value) => {
+  // Function to update the flowerTypes in real time as the user clicks on the checkboxes
+  // handleTypeChange = (evt, value) => {
+  //   let filters = this.props.filters;
+  //   if (evt.target.checked) {
+  //     filters.flowerType.constraint = filters.flowerType.constraint.concat(value);
+  //     this.props.updateFilters(filters);
+  //   } else {
+  //     let index = filters.flowerType.constraint.indexOf(value);
+  //     filters.flowerType.constraint.splice(index,1);
+  //     this.props.updateFilters(filters);
+  //   }
+  // }
+
+  updateSearchResults = () => {
+    // Update the flowerType constraints
+    let flowerTypeCheckboxes = document.getElementsByClassName("flowerTypeCheckbox");
+    let checkedFlowerTypes = Array.from(flowerTypeCheckboxes).filter(checkbox => checkbox.checked);
+    let newConstraints = checkedFlowerTypes.map(checked => checked.value)
     let filters = this.props.filters;
-    if (evt.target.checked) {
-      filters.flowerType.constraint = filters.flowerType.constraint.concat(value);
-      this.props.updateFilters(filters);
-    } else {
-      let index = filters.flowerType.constraint.indexOf(value);
-      filters.flowerType.constraint.splice(index,1);
-      this.props.updateFilters(filters);
-    }
+    filters.flowerType.constraint = newConstraints;
+
+    // Update the search radius constraints
+
+
+    // Lift the state up and apply the new constraints
+    this.props.updateFilters(filters);
   }
 
   render() {
@@ -66,7 +83,7 @@ class Filters extends Component {
           <ul style={flowerTypes}>
             {this.props.flowerTypes.map(type => (
               <li>
-                <input type="checkbox" value={type} onClick={(e) => {this.handleTypeChange(e, type)}}/>
+                <input type="checkbox" className="flowerTypeCheckbox" value={type}/>
                 {type}
               </li>
             ))}
@@ -76,7 +93,7 @@ class Filters extends Component {
           Distance: <input type='text' id='address' />
           <br/><br/>
         </div>
-        <button onClick={undefined}> Update Search Results </button>
+        <button onClick={this.updateSearchResults}> Update Search Results </button>
       </div>
     );
   }
