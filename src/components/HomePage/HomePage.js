@@ -27,38 +27,56 @@ class Filters extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expandFlowerType:false
+      filtersOpen: false,
+      expandFlowerType: false
     };
-    this.flowerTypeToggle = this.flowerTypeToggle.bind(this);
-    this.handleEditFlowerType = this.handleEditFlowerType.bind(this);
+
+    this.handleTypeChange = this.handleTypeChange.bind(this);
   }
-  flowerTypeToggle() {
-    this.setState({expandFlowerType:(!this.state.expandFlowerType)});
-  };
-  handleEditFlowerType(flower) {
-    this.props.onEditFlowerType(flower);
-  };
+
+  handleTypeChange = (evt, value) => {
+    let filters = this.props.filters;
+    if (evt.target.checked) {
+      filters.flowerType.constraint = filters.flowerType.constraint.concat(value);
+      this.props.updateFilters(filters);
+    } else {
+      let index = filters.flowerType.constraint.indexOf(value);
+      filters.flowerType.constraint.splice(index,1);
+      this.props.updateFilters(filters);
+    }
+  }
+
   render() {
-    let flowerTypeRows = [];
-    for (var i = 0; i < this.props.availableFilters.flowerTypes.length; i++) {
-      let flower = this.props.availableFilters.flowerTypes[i];
-      flowerTypeRows.push(
-        <li>
-          <input
-            type="checkbox"
-            value={this.props.availableFilters.flowerTypes[i]}
-            onClick={() => {this.handleEditFlowerType(flower)}}
-          /> {this.props.availableFilters.flowerTypes[i]}
-        </li>
-      );
+    const filterWindow = {
+      height: this.state.filtersOpen ? 'auto' : '16px',
+    };
+    const flowerTypes = {
+      display: this.state.expandFlowerType ? 'block' : 'hidden',
     }
     return (
-      <div className="filters">
-        Filter by<br />
-        <div className='filter'>
-          <span onClick={() => this.flowerTypeToggle()}>{(this.props.filters.flowerType.length==0)?"Flower Type":this.props.filters.flowerType.join(", ")}</span>
-          <ul className={this.state.expandFlowerType?"expand":"hidden"}>{flowerTypeRows}</ul>
+      <div className="filters" style={filterWindow} multiple>
+        <p onClick={() => this.setState({ filtersOpen: !this.state.filtersOpen})} className="filterToggle">
+          Filters {this.state.filtersOpen ? '\u25B2' : '\u25BC'}
+        </p>
+        <hr />
+        <div className='flowerTypeFilter'>
+          <span onClick={() => this.setState({expandFlowerType: !this.state.expandFlowerType})}>
+            Flower Type
+          </span>
+          <ul style={flowerTypes}>
+            {this.props.flowerTypes.map(type => (
+              <li>
+                <input type="checkbox" value={type} onClick={(e) => {this.handleTypeChange(e, type)}}/>
+                {type}
+              </li>
+            ))}
+          </ul>
         </div>
+        <div className='distanceFilter'>
+          Distance: <input type='text' id='address' />
+          <br/><br/>
+        </div>
+        <button onClick={undefined}> Update Search Results </button>
       </div>
     );
   }
@@ -73,6 +91,7 @@ class Shelf extends Component {
           title: "Birthday Blooms",
           description: 'This bright arrangement is perfect as a great party centerpiece or to send to a loved one far away.',
           location: '7033 N Moselle Ave, Chicago, IL 60646',
+          coords: {lat: 42.008077, lng: -87.777476},
           startTime: new Date('2019-04-21T10:00:00-05:00'),
           endTime: new Date('2019-04-21T12:00:00-05:00'),
           originalDate: new Date('2019-04-16'),
@@ -94,6 +113,7 @@ class Shelf extends Component {
           title: "Lily Celebration",
           description: 'With classic floral colors including red roses and pink lilies, the Rose and Lily Celebration is a wonderful gift to send to a friend or family member for a birthday, get well or anniversary.',
           location: '7033 N Moselle Ave, Chicago, IL 60646',
+          coords: {lat: 42.008077, lng: -87.777476},
           startTime: new Date('2019-04-21T10:00:00-05:00'),
           endTime: new Date('2019-04-21T12:00:00-05:00'),
           originalDate: new Date('2019-04-16'),
@@ -117,63 +137,78 @@ class Shelf extends Component {
         }
       ],
       filters: {
-        flowerType: []
+        flowerType: {
+          // Check if the catalog item has the types of flowers the user is searching for
+          func: (catalogItem,constraint) => {return catalogItem.flowers.filter(flower => constraint.includes(flower.type) || constraint.length == 0).length > 0},
+          // The array of flower types the user is searching for
+          constraint: []
+        },
+        distance: {
+          // Check if the distance between the coordinates of the search location and catalong item location is within range
+          func: (catalogItem,constraint) => {return this.calcCrow(catalogItem.coords,constraint.searchCoord) <= constraint.searchRadius},
+          // The coordinates of where the user is searching from and the radius they want to search within (default coordinate is of 60201)
+          constraint: {searchCoord: {lat: 42.060011, lng: -87.692626}, searchRadius: 50}
+        }
       },
-      availableFilters: {
-        flowerTypes: []
-      }
+      flowerTypes: ['Roses', 'Lilies', 'Waxflowers', 'Alstroemeria', 'Mums', 'Carnations']
     };
-    this.editFlowerType = this.editFlowerType.bind(this);
+
+    this.calcCrow = this.calcCrow.bind(this);
+    this.updateFilters = this.updateFilters.bind(this);
   }
-  editFlowerType(flower) {
-    // If flower is being filtered already, remove it, else add it
-    let stateCopy = this.state;
-    if (this.state.filters.flowerType.findIndex((tflower) => {return tflower == flower;}) == -1) { // Add it to the filtering
-      stateCopy.filters.flowerType.push(flower);
-    }
-    else { // Remove it from the filtering
-      let position = this.state.filters.flowerType.findIndex((tflower) => {return tflower == flower;});
-      stateCopy.filters.flowerType.splice(position,1);
-    }
-    this.setState(stateCopy);
+
+  // Converts numeric degrees to radians
+  toRad = (Value) => {
+    return Value * Math.PI / 180;
   };
-  componentDidMount = () => { // This function gets a list of available flower types from the catalog
-    for (let i = 0; i < this.state.catalog.length; i++) {
-      for (let j = 0; j < this.state.catalog[i].flowers.length; j++) {
-        if (this.state.availableFilters.flowerTypes.findIndex((flower) => {return this.state.catalog[i].flowers[j].type == flower;}) == -1) {
-          // Flower has not been seen yet, add it to available filter
-          let stateCopy = this.state;
-          stateCopy.availableFilters.flowerTypes.push(this.state.catalog[i].flowers[j].type);
-          this.setState(stateCopy);
-        }
+
+  //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+  calcCrow = (coords1, coords2) => {
+    // var R = 6.371; // km
+    let R = 6371;
+    let dLat = this.toRad(coords2.lat-coords1.lat);
+    let dLon = this.toRad(coords2.lng-coords1.lng);
+    let lat1 = this.toRad(coords1.lat);
+    let lat2 = this.toRad(coords2.lat);
+
+    let a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    let d = R * c;
+    return d;
+  };
+
+  // Check if a catalog item meets the search criteria
+  checkFilter = (flower) => {
+    let filters = this.state.filters;
+    let filterPass = true;
+    let filterEntries = Object.entries(filters);
+
+    // Check if the given catalog item passes each of the filter checks
+    for (const [filterType, filterMethods] of filterEntries) {
+      // If an item does not pass a filter then return false tell the caller to exclude this catalog item
+      if (!filterMethods.func(flower, filterMethods.constraint)) {
+        filterPass = false;
+        return filterPass;
       }
     }
+
+    // This will return true
+    return filterPass;
   }
+
+  // Update filters state with new constraints
+  updateFilters = (updatedFilters) => {
+    this.setState({filters: updatedFilters});
+  }
+
   render() {
-    let rows = [];
-    for (let i = 0; i < this.state.catalog.length; i++) {
-      let display = false;
-      for (let j = 0; j < this.state.filters.flowerType.length; j++) {
-        if (this.state.catalog[i].flowers.findIndex((flower) => {return flower.type == this.state.filters.flowerType[j];}) != -1) {
-          display = true; // We have certain flower, will display
-          break;
-        }
-      }
-      if (display || this.state.filters.flowerType == 0) {
-        rows.push(
-          <Listing data={this.state.catalog[i]} availableFilters={this.state.availableFilters} />
-        );
-      }
-    }
-    
     return (
       <div className="shelf">
-        <Filters
-          filters={this.state.filters}
-          availableFilters={this.state.availableFilters}
-          onEditFlowerType={this.editFlowerType}
-        />
-        {rows}
+        <Filters updateFilters={this.updateFilters} flowerTypes={this.state.flowerTypes} filters={this.state.filters} />
+        {this.state.catalog.filter(flower => this.checkFilter(flower)).map(flower => (
+          <Listing data={flower} />
+        ))}
       </div>
     );
   }
