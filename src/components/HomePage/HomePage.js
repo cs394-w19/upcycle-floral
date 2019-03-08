@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { RingLoader } from 'react-spinners';
 import { Link } from 'react-router-dom';
 import Header from './../Header/index.js';
 import './style.css';
@@ -23,7 +24,6 @@ class HomePage extends Component {
 }
 
 class Filters extends Component {
-  // NEED TO ADD FUNCTIONALITY OF SELECTING CHECKBOXES
   constructor(props) {
     super(props);
     this.state = {
@@ -52,15 +52,46 @@ class Filters extends Component {
     // Update the flowerType constraints
     let flowerTypeCheckboxes = document.getElementsByClassName("flowerTypeCheckbox");
     let checkedFlowerTypes = Array.from(flowerTypeCheckboxes).filter(checkbox => checkbox.checked);
-    let newConstraints = checkedFlowerTypes.map(checked => checked.value)
-    let filters = this.props.filters;
+    let newConstraints = checkedFlowerTypes.map(checked => checked.value);
+    let updateFilters = this.props.updateFilters;
+    let filters = Object.assign({}, this.props.filters);
     filters.flowerType.constraint = newConstraints;
 
     // Update the search radius constraints
+    let searchAddress = document.getElementById("address");
+    let newRadius = document.getElementById("radius");
 
+    // If the user inputs a search address
+    if (searchAddress.value != "") {
+      // Initialize the spin loader to let the user know we are fetching the results then fetch the results
+      let spinner = document.getElementById('spinner');
+      spinner.style.display = 'block';
 
-    // Lift the state up and apply the new constraints
-    this.props.updateFilters(filters);
+      // Query the coordinates
+      searchAddress = searchAddress.value.replace(/ /g, "+");
+      const msgFetch = fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchAddress}&key=AIzaSyBqnIcBpUX2t610qllmSk-Rh23g7a-Q_S8`)
+      .then(function(response) { // Wait for the result and get the json object
+        return response.json();
+      })
+      .then(function(myJson) { // Use the json object to do stuff
+        if (myJson.status == "OK") {
+          let searchCoordinates = myJson.results[0].geometry.location;
+          filters.distance.constraint.searchCoord = searchCoordinates;
+          filters.distance.constraint.searchRadius = newRadius.value != "" ? Number(newRadius.value) : 50;
+          // Close the loading spinner and update the filters
+          spinner.style.display = 'none';
+          updateFilters(filters);
+        } else {
+          // Something went wrong with the Results
+          alert('We were unable to apply the location radius you submitted');
+          // Close the loading spinner
+          spinner.style.display = 'none';
+        }
+      });
+    } else {
+      // Lift the state up and apply the new constraints
+      updateFilters(filters);
+    }
   }
 
   render() {
@@ -90,10 +121,13 @@ class Filters extends Component {
           </ul>
         </div>
         <div className='distanceFilter'>
-          Distance: <input type='text' id='address' />
+          Address: <input placeholder="2145 Sheridan Rd, Evanston, IL 60208" type='text' id='address' /> <br/>
+          Radius: <input type='text' placeholder="50" id='radius' /> Miles <br/>
+          * Leaving this empty will default to a radius of 50 miles
           <br/><br/>
         </div>
         <button onClick={this.updateSearchResults}> Update Search Results </button>
+        <div id="spinner"><RingLoader color={'#005ce6'} loading={true} /> Loading.... </div>
       </div>
     );
   }
@@ -179,7 +213,7 @@ class Shelf extends Component {
     return Value * Math.PI / 180;
   };
 
-  //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in km)
+  //This function takes in latitude and longitude of two location and returns the distance between them as the crow flies (in miles)
   calcCrow = (coords1, coords2) => {
     // var R = 6.371; // km
     let R = 6371;
@@ -192,7 +226,7 @@ class Shelf extends Component {
     Math.sin(dLon/2) * Math.sin(dLon/2) * Math.cos(lat1) * Math.cos(lat2);
     let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     let d = R * c;
-    return d;
+    return d/1.6; // Divide by 1.6 because d is in km and there are 1.6km/mile
   };
 
   // Check if a catalog item meets the search criteria
@@ -222,7 +256,7 @@ class Shelf extends Component {
   render() {
     return (
       <div className="shelf">
-        <Filters updateFilters={this.updateFilters} flowerTypes={this.state.flowerTypes} filters={this.state.filters} />
+        <Filters updateFilters={this.updateFilters} calcCrow={this.calcCrow} flowerTypes={this.state.flowerTypes} filters={this.state.filters} />
         {this.state.catalog.filter(flower => this.checkFilter(flower)).map(flower => (
           <Listing data={flower} />
         ))}

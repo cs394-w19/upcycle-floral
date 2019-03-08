@@ -64,3 +64,7 @@ div p {
 	padding-bottom: 0;
 	cursor: pointer;
 }
+
+#spinner {
+	display: none;
+}
