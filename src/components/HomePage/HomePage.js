@@ -31,7 +31,7 @@ class Filters extends Component {
       expandFlowerType: false
     };
 
-    this.handleTypeChange = this.handleTypeChange.bind(this);
+    // this.handleTypeChange = this.handleTypeChange.bind(this);
     this.updateSearchResults = this.updateSearchResults.bind(this);
   }
 
