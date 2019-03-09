@@ -25,6 +25,11 @@ div p {
 
 .filters {
 	padding:10px;
+	overflow: hidden;
+	background-color: #fdfeff;
+	border-radius: 5px;
+	margin: 10px 10px 0 10px;
+	border: 1px solid #dce6f7;
 }
 
 .listing {
@@ -52,42 +57,14 @@ div p {
 	font-style:italic;
 	color:#331313;
 }
-.filter {
-	display:inline-block;
-	width:100px;
-	background:white;
-	padding:4px;
-	cursor:pointer;
-	position:relative;
-	margin:3px;
+
+.filterToggle {
+	margin-top: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	cursor: pointer;
 }
-.filter span {
-	display:block;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
-	height:20px;
-	width:92px;
-}
-.filter ul {
-	position:absolute;
-	top:28px;
-	left:0px;
-	z-index:10;
-	padding:0px;
-	margin:0px;
-	background:white;
-	border:1px solid rgba(0,0,0,.1);
-}
-.filter li {
-	padding:2px;
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
-}
-.expand {
-	display:block;
-}
-.hidden {
-	display:none;
+
+#spinner {
+	display: none;
 }
