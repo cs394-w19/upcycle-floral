@@ -5,13 +5,61 @@ import Header from './../Header/index.js';
 import Filters from './../Filters/index.js';
 import Listing from './../Listing/index.js';
 import './style.css';
-import { withFirebase } from './../Firebase';
 
 class Shelf extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      arrangements: [],
+      catalog: [
+        {
+          title: "Birthday Blooms",
+          description: 'This bright arrangement is perfect as a great party centerpiece or to send to a loved one far away.',
+          location: '7033 N Moselle Ave, Chicago, IL 60646',
+          coords: {lat: 42.008077, lng: -87.777476},
+          startTime: new Date('2019-04-21T10:00:00-05:00'),
+          endTime: new Date('2019-04-21T12:00:00-05:00'),
+          originalDate: new Date('2019-04-16'),
+          numberOfFlowers: 50,
+          flowers: [
+            {
+              type: "Roses",
+              number: 15
+            }, {
+              type: "Carnations",
+              number: 20
+            }, {
+              type: "Mums",
+              number: 15
+            }
+          ],
+          image:'lily_static.jpeg'
+        }, {
+          title: "Lily Celebration",
+          description: 'With classic floral colors including red roses and pink lilies, the Rose and Lily Celebration is a wonderful gift to send to a friend or family member for a birthday, get well or anniversary.',
+          location: '7033 N Moselle Ave, Chicago, IL 60646',
+          coords: {lat: 42.008077, lng: -87.777476},
+          startTime: new Date('2019-04-21T10:00:00-05:00'),
+          endTime: new Date('2019-04-21T12:00:00-05:00'),
+          originalDate: new Date('2019-04-16'),
+          numberOfFlowers: 60,
+          flowers: [
+            {
+              type: "Roses",
+              number: 15
+            }, {
+              type: "Lilies",
+              number: 20
+            }, {
+              type: "Waxflowers",
+              number: 15
+            }, {
+              type: "Alstroemeria",
+              number: 10
+            }
+          ],
+          image:'another_static.jpg'
+        }
+      ],
       filters: {
         flowerType: {
           // Check if the catalog item has the types of flowers the user is searching for
@@ -32,26 +80,6 @@ class Shelf extends Component {
     this.calcCrow = this.calcCrow.bind(this);
     this.updateFilters = this.updateFilters.bind(this);
   }
-
-  // componentWillMount = () => {
-  //   this.props.firebase.arrangements().on('value', snapshot => {
-  //     var data = snapshot.val();
-  //     console.log(data);
-  //     this.setState({
-  //       arrangements: data
-  //   //     maxLoad: data.filter(location => location.distance <= this.state.radius).length
-  //     });
-  //   //  });
-  //   // this.props.firebase.types().on('value', snapshot => {
-  //   //   this.setState({
-  //   //    locationTypes: snapshot.val()
-  //   //   });
-  //   });
-  // };
-  //
-  // componentWillUnmount = () => {
-  //   this.props.firebase.arrangements().off();
-  // };
 
   // Converts numeric degrees to radians
   toRad = (Value) => {
@@ -102,7 +130,7 @@ class Shelf extends Component {
     return (
       <div className="shelf">
         <Filters updateFilters={this.updateFilters} calcCrow={this.calcCrow} flowerTypes={this.state.flowerTypes} filters={this.state.filters} />
-        {this.state.arrangements.filter(flower => this.checkFilter(flower)).map(flower => (
+        {this.state.catalog.filter(flower => this.checkFilter(flower)).map(flower => (
           <Listing data={flower} />
         ))}
       </div>
