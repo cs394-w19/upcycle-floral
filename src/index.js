@@ -4,8 +4,12 @@ import './index.css';
 import SiteRoutes from './SiteRoutes';
 import * as serviceWorker from './serviceWorker';
 
+import Firebase, { FirebaseContext } from './components/Firebase';
+
 ReactDOM.render(
-  <SiteRoutes />,
+  <FirebaseContext.Provider value={new Firebase()}>
+    <SiteRoutes />
+  </FirebaseContext.Provider>,
   document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

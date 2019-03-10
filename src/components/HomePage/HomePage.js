@@ -5,9 +5,30 @@ import Header from './../Header/index.js';
 import Shelf from './../Shelf/index.js';
 import Filters from './../Filters/index.js';
 import Listing from './../Listing/index.js';
+import { withFirebase } from './../Firebase';
 import './style.css';
 
 class HomePage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      arrangements: []
+    }
+  }
+
+  // componentWillMount = () => {
+  //   this.props.firebase.arrangements().on('value', snapshot => {
+  //     var data = snapshot.val();
+  //     this.setState({
+  //       arrangements: data
+  //     });
+  //    });
+  // };
+  //
+  // componentWillUnmount = () => {
+  //   this.props.firebase.arrangements().off();
+  // };
+
   render() {
     return (
       <div>
@@ -26,6 +47,6 @@ class HomePage extends Component {
   }
 }
 
-
+HomePage = withFirebase(HomePage);
 
 export default HomePage;

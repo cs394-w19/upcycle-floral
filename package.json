@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "firebase": "^5.8.6",
     "react": "^16.8.2",
     "react-add-to-calendar": "^0.1.5",
     "react-day-picker": "^7.3.0",
