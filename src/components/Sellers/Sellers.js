@@ -103,8 +103,25 @@ class Sellers extends Component {
             <legend>Your Information</legend>
             <table>
               <tr>
-                <td>Name/Organization</td>
+                <td>Name and/or Organization</td>
                 <td><input type="text" onChange={this.changeName} /></td>
+              </tr>
+              <tr>
+                <td>Pickup Location</td>
+                <td><input type="text" value={this.state.location} onChange={this.changeLocation} /></td>
+              </tr>
+              <tr>
+                <td colspan="2">Pickup Time Availability</td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <DayPicker
+                    onDayClick={this.handleDateSelection}
+                    month={this.state.startTime}
+                    selectedDays={[this.state.dateRange, this.state.dateRange.from]}
+                    disabledDays={{before: new Date()}}
+                  />
+                </td>
               </tr>
             </table>
           </fieldset>
@@ -123,10 +140,6 @@ class Sellers extends Component {
           <label>
             Title:
             <input type="text" value={this.state.title} onChange={this.changeTitle} />
-          </label>
-          <label>
-            Location:
-            <input type="text" value={this.state.location} onChange={this.changeLocation} />
           </label>
           <label>
           How large a container do your flowers require?:
@@ -166,12 +179,7 @@ class Sellers extends Component {
             <p className="saved"> Add any other important information below </p>
             <textarea rows="1" cols="50" wrap="physical" name="description" value={this.state.description} onChange={this.changeDescription}></textarea>
             <br />
-            <DayPicker
-              onDayClick={this.handleDateSelection}
-              month={this.state.startTime}
-              selectedDays={[this.state.dateRange, this.state.dateRange.from]}
-              disabledDays={{before: new Date()}}
-            />
+
             <br />
           </form>
 

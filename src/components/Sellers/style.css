@@ -41,6 +41,22 @@ fieldset {
 legend {
   font-weight:bold;
 }
+fieldset table {
+  width:100%;
+}
+fieldset td {
+  padding:5px;
+}
+fieldset td:nth-child(odd) {
+  max-width:110px;
+}
+fieldset td[colspan="2"] {
+  text-align:center;
+}
+fieldset td input[type=text] {
+  padding:2px;
+  font-size:12pt;
+}
 .button {
 	background:#d6b327; /* Using color "Rajah" as base idea #F7B267 */
 	width:200px;
