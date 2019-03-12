@@ -18,6 +18,7 @@ class Sellers extends Component {
        title: "",
        description: "",
        location: "",
+       coords: {},
        fitsIn: "basket",
        imageLink: "",
        flowerTypes: [['Roses', "1-12"]],
@@ -240,14 +241,32 @@ class SubmitListing extends Component {
   };
 
   handleSubmit = (event) => {
-    var parState = JSON.parse(JSON.stringify(this.props.parState));
-    delete parState["count"];
-    let from = parState["dateRange"]["from"];
-    var date = parState["dateRange"]["from"].slice(0, 10) + " to " + parState["dateRange"]["to"].slice(0, 10);
-    delete parState["dateRange"];
-    parState["pickupDate"] = date;
-    this.props.firebase.listings().push().set(parState);
-    alert("Your listing has been submitted!");
+    let parState = JSON.parse(JSON.stringify(this.props.parState));
+    let parStateObject = this.props.parState
+    let addressLocation = parStateObject.location.replace(/ /g, "+");
+    let propsFirebase = this.props.firebase;
+    const msgFetch = fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressLocation}&key=AIzaSyBqnIcBpUX2t610qllmSk-Rh23g7a-Q_S8`)
+    .then(function(response) { // Wait for the result and get the json object
+      return response.json();
+    })
+    .then(function(myJson) { // Use the json object to do stuff
+      if (myJson.status == "OK") {
+        let searchCoordinates = myJson.results[0].geometry.location;
+
+        parStateObject.coords = searchCoordinates;
+      } else {
+        // Something went wrong with getting the coordinates of the location submitted. Default coordinates (tech address) will be used
+        parStateObject.coords = {lat: 42.008077, lng: -87.777476};
+        alert('We were unable to fetch the coordinates of the location you submitted. We set a default for 2145 Sheridan Road Evanston, IL 60201');
+      }
+      delete parState["count"];
+      let from = parState["dateRange"]["from"];
+      var date = parState["dateRange"]["from"].slice(0, 10) + " to " + parState["dateRange"]["to"].slice(0, 10);
+      delete parState["dateRange"];
+      parState["pickupDate"] = date;
+      propsFirebase.listings().push().set(parState);
+      alert('Your listing has been submitted!');
+    });
   }
 
   render() {
