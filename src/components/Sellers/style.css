@@ -33,7 +33,59 @@
 	padding:6px 0px 0px 0px;
 	color:#331313;
 }
-
+fieldset {
+  text-align:left;
+  margin:8px;
+  padding:8px;
+  box-sizing:border-box;
+}
+legend {
+  font-weight:bold;
+}
+fieldset table {
+  width:100%;
+}
+fieldset td {
+  padding:5px;
+  min-height:30pt;
+}
+fieldset td:nth-child(odd) {
+  max-width:110px;
+}
+fieldset td[colspan="2"] {
+  text-align:center;
+}
+fieldset td input[type=text] {
+  padding:2px;
+  font-size:12pt;
+}
+fieldset td div.flowertype {
+  font-size:10pt;
+  width:100%;
+  overflow:auto;
+  margin:0px 0px 10px 0px;
+}
+fieldset td label {
+  float:left;
+}
+fieldset td label:nth-child(even) {
+  float:right;
+}
+.addflower {
+  padding:5px;
+  background:white;
+  border:1px solid #ccc;
+  border-radius:2px;
+  margin-top:10px;
+  box-shadow:0px 0px 1px rgba(0,0,0,.1);
+}
+fieldset .fileUploader .fileContainer {
+  box-shadow:none;
+  border:none;
+}
+.sizeselector {
+  font-size:11pt;
+}
 .button {
 	background:#d6b327; /* Using color "Rajah" as base idea #F7B267 */
 	width:200px;
@@ -166,11 +218,16 @@ a.cancel{
 }
 
 .removeFlowerType {
+	margin-left:5px;
 	color: red;
 }
 
 .removeFlowerType:hover {
 	cursor: pointer;
+}
+
+.invisible {
+	visibility:hidden;
 }
 
 /* Old styling for add-to-calendar and get-direction buttons
