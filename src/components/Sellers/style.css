@@ -20,6 +20,15 @@
 	width:70%;
 	margin:5px 15%;
 }
+
+.confirmation input{
+	border-radius:3px;
+}
+
+.confirmation textarea{
+	border-radius:3px;
+}
+
 .confirmation .instructions {
 	width:80%;
 	margin:5px 10%;

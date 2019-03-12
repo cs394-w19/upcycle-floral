@@ -78,11 +78,11 @@ class Sellers extends Component {
   changePickupDate = (event) => {
     this.setState({ pickupDate: event.target.value});
   }
-  
+
   changeName = (event) => {
     this.setState({ name: event.target.value});
   }
-  
+
   changeDescription = (event) => {
     this.setState({ description: event.target.value});
   }
