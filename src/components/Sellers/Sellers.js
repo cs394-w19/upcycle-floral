@@ -20,6 +20,7 @@ class Sellers extends Component {
        location: "",
        fitsIn: "basket",
        imageLink: "",
+       otherInfo: "",
        flowerTypes: [['Any', "1-12"]],
        count: 1,
        dateRange: {
@@ -62,8 +63,8 @@ class Sellers extends Component {
     this.setState({ title: event.target.value});
   }
 
-  changeDescription = (event) => {
-    this.setState({ description: event.target.value});
+  changeOtherInfo = (event) => {
+    this.setState({ otherInfo: event.target.value});
   }
 
   changeLocation = (event) => {
@@ -80,6 +81,10 @@ class Sellers extends Component {
   
   changeName = (event) => {
     this.setState({ name: event.target.value});
+  }
+  
+  changeDescription = (event) => {
+    this.setState({ description: event.target.value});
   }
 
   render() {
@@ -105,16 +110,20 @@ class Sellers extends Component {
             <p className="saved">
               Please provide as much information about the arrangement as you can
             </p>
-            <table>
+            <table><tbody>
               <tr>
                 <td>Title of Arrangement</td>
                 <td><input type="text" value={this.state.title} onChange={this.changeTitle} /></td>
               </tr>
               <tr>
-                <td colspan="2"><br />Flower Details</td>
+                <td>Arrangement Description</td>
+                <td><textarea rows="3" cols="23" value={this.state.description} onChange={this.changeDescription}></textarea></td>
               </tr>
               <tr>
-                <td colspan="2">
+                <td colSpan="2"><br />Flower Details</td>
+              </tr>
+              <tr>
+                <td colSpan="2">
                  {this.state.flowerTypes.map( (type, index) => (
                    <div className="flowertype" key={type}>
                      <label>
@@ -143,10 +152,10 @@ class Sellers extends Component {
                 </td>
               </tr>
               <tr>
-                <td colspan="2"><br />Image of Arrangement (If Available)</td>
+                <td colSpan="2"><br />Image of Arrangement (If Available)</td>
               </tr>
               <tr>
-                <td colspan="2">
+                <td colSpan="2">
                   <ImageUploader
                 	withIcon={true}
                 	buttonText='Upload photos'
@@ -159,36 +168,36 @@ class Sellers extends Component {
                 </td>
               </tr>
               <tr>
-                <td colspan="2">How large a container do your flowers require?</td>
+                <td colSpan="2">How large a container do your flowers require?</td>
               </tr>
               <tr>
-                <td colspan="2">
+                <td colSpan="2">
                   <select className="sizeselector" value={this.state.fitsIn} onChange={this.changeFitsIn}>
                     <option value="basket">Basket</option>
                     <option value="car">Small Car</option>
-                    <option selected value="suv">SUV</option>
+                    <option value="suv">SUV</option>
                     <option value="truck">Truck</option>
                   </select>
                 </td>
               </tr>
-            </table>
+            </tbody></table>
           </fieldset>
           <fieldset>
             <legend>Your Information</legend>
-            <table>
+            <table><tbody>
               <tr>
                 <td>Name and/or Organization</td>
                 <td><input type="text" onChange={this.changeName} /></td>
               </tr>
               <tr>
-                <td>Pickup Location</td>
+                <td>Pickup Address</td>
                 <td><input type="text" value={this.state.location} onChange={this.changeLocation} /></td>
               </tr>
               <tr>
-                <td colspan="2">Pickup Time Availability</td>
+                <td colSpan="2">Pickup Time Availability</td>
               </tr>
               <tr>
-                <td colspan="2">
+                <td colSpan="2">
                   <DayPicker
                     onDayClick={this.handleDateSelection}
                     month={this.state.startTime}
@@ -197,10 +206,10 @@ class Sellers extends Component {
                   />
                 </td>
               </tr>
-            </table>
+            </tbody></table>
           </fieldset>
             <p className="saved"> Add any other important information below </p>
-            <textarea rows="3" cols="50" wrap="physical" name="description" value={this.state.description} onChange={this.changeDescription}></textarea>
+            <textarea rows="3" cols="50" wrap="physical" name="otherinfo" placeholder="Pickup instructions, freshness, or other important details" value={this.state.otherInfo} onChange={this.changeOtherInfo}></textarea>
           </form>
           <div className="helperbuttons">
             <SubmitListing parState={this.state} firebase={this.props.firebase}/>
@@ -224,8 +233,6 @@ class Sellers extends Component {
 }
 
 const FlowerTypeSelection = (index, remove) => {
-  alert(index);
-  let cancelbutton = index==0?(<span className="removeFlowerType invisible">X</span>):(<span onClick={() => remove(index)} className="removeFlowerType">X</span>);
   return (
     <div>
       <label>
@@ -247,7 +254,7 @@ const FlowerTypeSelection = (index, remove) => {
           <option value="50+">50+</option>
         </select>
       </label>
-      {cancelbutton}
+      <span onClick={() => remove(index)} className={`removeFlowerType${index==0?" invisible":""}`}>X</span>
       <br />
     </div>
 )};
