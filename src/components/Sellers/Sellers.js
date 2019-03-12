@@ -107,14 +107,21 @@ class Sellers extends Component {
           <p className="saved">
             Please select the flower type, quantity, and potential pickup dates below
           </p>
+
+
+<div className="questionaire">
+
+
           <label>
             Title:
             <input type="text" value={this.state.title} onChange={this.changeTitle} />
           </label>
+          <br></br>
           <label>
             Location:
             <input type="text" value={this.state.location} onChange={this.changeLocation} />
           </label>
+          <br></br>
           <label>
           How large a container do your flowers require?:
           <select value={this.state.fitsIn} onChange={this.changeFitsIn}>
@@ -124,9 +131,11 @@ class Sellers extends Component {
             <option value="truck">Truck</option>
           </select>
           </label>
+      </div>
+      <br></br>
           <form onSubmit={this.handleSubmit}>
             {this.state.flowerTypes.map( (type, index) => (
-              <div key={type}>
+              <div className="questionaire" key={type}>
                 <label>
                   Flower Type:
                   <select value={this.state.flowerTypes[index][0]} onChange={(e) => this.addFlowerType(index, e.target.value, this.state.flowerTypes[index][1], e)}>
@@ -136,6 +145,7 @@ class Sellers extends Component {
                     <option value="Other">Other</option>
                   </select>
                 </label> &emsp;
+                <br></br>
                 <label>
                   Quantity:
                   <select value={this.state.flowerTypes[index][1]} onChange={(e) => this.addFlowerType(index, this.state.flowerTypes[index][0], e.target.value, e)}>
@@ -149,8 +159,10 @@ class Sellers extends Component {
                 <br />
               </div>
             ))}
+            <br></br>
             <button type="button" onClick={(e) => this.addFlowerType(this.state.flowerTypes.length, "Roses", "1-12", e)}> + Add another flower type </button>
             <p className="saved"> Add any other important information below </p>
+
             <textarea rows="1" cols="50" wrap="physical" name="description" value={this.state.description} onChange={this.changeDescription}></textarea>
             <br />
             <DayPicker
@@ -161,6 +173,7 @@ class Sellers extends Component {
             />
             <br />
           </form>
+
 
           <div className="helperbuttons">
             <SubmitListing parState={this.state} firebase={this.props.firebase}/>

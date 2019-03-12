@@ -1,3 +1,20 @@
+input[type=text], select {
+  max-width: 70%;
+	float: right;
+	clear: both;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+
+.questionaire {
+	text-align: left;
+	padding-left: 10px;
+	padding-right:10px;
+}
+
 .confirmation {
 	box-sizing:border-box;
 	position:relative;
