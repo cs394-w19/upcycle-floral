@@ -99,6 +99,7 @@ class Sellers extends Component {
       <div>
         <div className="confirmation">
           <h1>Create a Listing</h1>
+          <form onSubmit={this.handleSubmit}>
           <fieldset>
             <legend>Arrangement Information</legend>
             <p className="saved">
@@ -134,15 +135,15 @@ class Sellers extends Component {
                          <option value="25-50">25-50</option>
                          <option value="50+">50+</option>
                        </select>
-                       &emsp; <span onClick={() => this.removeFlowerType(index)} className="removeFlowerType">X</span>
+                       <span onClick={() => this.removeFlowerType(index)} className={`removeFlowerType ${index==0?"invisible":""}`}>X</span>
                      </label>
                    </div>
                   ))}
-                  <button className="addflower" onClick={(e) => this.addFlowerType(this.state.flowerTypes.length, "Any", "1-12", e)}> + Add another flower type </button>
+                  <button type="button" className="addflower" onClick={(e) => this.addFlowerType(this.state.flowerTypes.length, "Any", "1-12", e)}> + Add another flower type </button>
                 </td>
               </tr>
               <tr>
-                <td colspan="2"><br />Image of Arrangement</td>
+                <td colspan="2"><br />Image of Arrangement (If Available)</td>
               </tr>
               <tr>
                 <td colspan="2">
@@ -198,16 +199,9 @@ class Sellers extends Component {
               </tr>
             </table>
           </fieldset>
-          <form onSubmit={this.handleSubmit}>
-
-
             <p className="saved"> Add any other important information below </p>
-            <textarea rows="1" cols="50" wrap="physical" name="description" value={this.state.description} onChange={this.changeDescription}></textarea>
-            <br />
-
-            <br />
+            <textarea rows="3" cols="50" wrap="physical" name="description" value={this.state.description} onChange={this.changeDescription}></textarea>
           </form>
-
           <div className="helperbuttons">
             <SubmitListing parState={this.state} firebase={this.props.firebase}/>
             <Cancel />
@@ -230,6 +224,8 @@ class Sellers extends Component {
 }
 
 const FlowerTypeSelection = (index, remove) => {
+  alert(index);
+  let cancelbutton = index==0?(<span className="removeFlowerType invisible">X</span>):(<span onClick={() => remove(index)} className="removeFlowerType">X</span>);
   return (
     <div>
       <label>
@@ -241,7 +237,7 @@ const FlowerTypeSelection = (index, remove) => {
           <option value="Dandylions">Dandylions</option>
           <option value="Other">Other</option>
         </select>
-      </label> &emsp;
+      </label>
       <label>
         Quantity:
         <select>
@@ -251,7 +247,7 @@ const FlowerTypeSelection = (index, remove) => {
           <option value="50+">50+</option>
         </select>
       </label>
-      &emsp; <span onClick={() => remove(index)} className="removeFlowerType">X</span>
+      {cancelbutton}
       <br />
     </div>
 )};

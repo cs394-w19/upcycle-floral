@@ -218,11 +218,16 @@ a.cancel{
 }
 
 .removeFlowerType {
+	margin-left:5px;
 	color: red;
 }
 
 .removeFlowerType:hover {
 	cursor: pointer;
+}
+
+.invisible {
+	visibility:hidden;
 }
 
 /* Old styling for add-to-calendar and get-direction buttons
