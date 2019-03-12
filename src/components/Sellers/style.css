@@ -33,7 +33,14 @@
 	padding:6px 0px 0px 0px;
 	color:#331313;
 }
-
+fieldset {
+  text-align:left;
+  margin:8px;
+  padding:8px;
+}
+legend {
+  font-weight:bold;
+}
 .button {
 	background:#d6b327; /* Using color "Rajah" as base idea #F7B267 */
 	width:200px;

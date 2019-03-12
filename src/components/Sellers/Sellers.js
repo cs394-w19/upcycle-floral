@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
-import staticImage from '../../static/images/lily_static.jpeg';
 import AddToCalendar from 'react-add-to-calendar';
 import ConfirmationBanner from '../ConfirmationBanner';
 import Dropzone from 'react-dropzone';
@@ -16,6 +15,7 @@ class Sellers extends Component {
     super(props);
      this.state = {
        title: "",
+       name:"",
        description: "",
        location: "",
        fitsIn: "basket",
@@ -77,6 +77,10 @@ class Sellers extends Component {
   changePickupDate = (event) => {
     this.setState({ pickupDate: event.target.value});
   }
+  
+  changeName = (event) => {
+    this.setState({ name: event.target.value});
+  }
 
   render() {
     if (false) {
@@ -95,11 +99,20 @@ class Sellers extends Component {
       <div>
         <div className="confirmation">
           <h1>Create a Listing</h1>
+          <fieldset>
+            <legend>Your Information</legend>
+            <table>
+              <tr>
+                <td>Name/Organization</td>
+                <td><input type="text" onChange={this.changeName} /></td>
+              </tr>
+            </table>
+          </fieldset>
           <ImageUploader
                 	withIcon={true}
                 	buttonText='Upload pictures of your flowers'
                 	onChange={this.onDrop}
-                	imgExtension={['.jpg', '.gif', '.png', '.gif']}
+                	imgExtension={['.jpg', '.gif', '.png', '.jpeg']}
                 	maxFileSize={5242880}
                   withPreview={true}
                   label='Max file size: 5mb, Accepted: .jpg | .png | .gif'
