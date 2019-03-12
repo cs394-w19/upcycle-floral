@@ -8,23 +8,20 @@ import Dropzone from 'react-dropzone';
 import ImageUploader from 'react-images-upload';
 import DayPicker, { DateUtils } from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+import { withFirebase } from '../Firebase';
 
 class Sellers extends Component {
 
   constructor(props) {
     super(props);
      this.state = {
-       title: "Birthday Blooms",
-       description: 'This bright arrangement is perfect as a great party centerpiece or to send to a loved one far away.',
-       location: '7033 N Moselle Ave, Chicago, IL 60646',
-       currency: "$",
-       originalValue: 35,
-       purchaseValue: 0,
-       originalDate: new Date('2019-04-16'),
-       numberOfFlowers: 50,
-       flowerTypes: [],
+       title: "",
+       description: "",
+       location: "",
+       fitsIn: "basket",
+       imageLink: "",
+       flowerTypes: [['Roses', "1-12"]],
        count: 1,
-       pictures: [],
        dateRange: {
         from: null,
         to: null,
@@ -35,22 +32,23 @@ class Sellers extends Component {
      this.removeFlowerType = this.removeFlowerType.bind(this);
   }
 
-  componentWillMount = () => {
-    this.setState({flowerTypes: ['type1']});
-  }
-
   onDrop(pictureFiles, pictureDataURLs) {
-    console.log(pictureFiles);
-		this.setState({
-        pictures: this.state.pictures.concat(pictureFiles),
-    });
+    if (pictureFiles[0]){
+      this.setState({
+          imageLink: pictureFiles[0].name
+      });
+    }
+    else{
+      this.setState({
+          imageLink: ""
+      });
+    }
   }
 
-  addFlowerType = () => {
+  addFlowerType = (index, newType, newQuant, event) => {
     let currTypes = this.state.flowerTypes;
-    let currCount = this.state.count;
-    let newKey = 'type' + (currCount + 1);
-    this.setState({ flowerTypes : currTypes.concat([newKey]), count: currCount + 1});
+    currTypes[index] = [newType, newQuant];
+    this.setState({ flowerTypes : currTypes});
   }
 
   removeFlowerType = (index) => {
@@ -58,6 +56,26 @@ class Sellers extends Component {
     let left = currTypes.slice(0,index);
     let right = currTypes.slice(index+1);
     this.setState({ flowerTypes: left.concat(right)});
+  }
+
+  changeTitle = (event) => {
+    this.setState({ title: event.target.value});
+  }
+
+  changeDescription = (event) => {
+    this.setState({ description: event.target.value});
+  }
+
+  changeLocation = (event) => {
+    this.setState({ location: event.target.value});
+  }
+
+  changeFitsIn = (event) => {
+    this.setState({ fitsIn: event.target.value});
+  }
+
+  changePickupDate = (event) => {
+    this.setState({ pickupDate: event.target.value});
   }
 
   render() {
@@ -89,22 +107,38 @@ class Sellers extends Component {
           <p className="saved">
             Please select the flower type, quantity, and potential pickup dates below
           </p>
-
+          <label>
+            Title:
+            <input type="text" value={this.state.title} onChange={this.changeTitle} />
+          </label>
+          <label>
+            Location:
+            <input type="text" value={this.state.location} onChange={this.changeLocation} />
+          </label>
+          <label>
+          How large a container do your flowers require?:
+          <select value={this.state.fitsIn} onChange={this.changeFitsIn}>
+            <option value="basket">Basket</option>
+            <option value="car">Small Car</option>
+            <option selected value="suv">SUV</option>
+            <option value="truck">Truck</option>
+          </select>
+          </label>
           <form onSubmit={this.handleSubmit}>
             {this.state.flowerTypes.map( (type, index) => (
               <div key={type}>
                 <label>
                   Flower Type:
-                  <select>
+                  <select value={this.state.flowerTypes[index][0]} onChange={(e) => this.addFlowerType(index, e.target.value, this.state.flowerTypes[index][1], e)}>
                     <option value="Roses">Roses</option>
                     <option value="Tulips">Tulips</option>
-                    <option value="Dandylions">Dandylions</option>
+                    <option value="Dandelions">Dandelions</option>
                     <option value="Other">Other</option>
                   </select>
                 </label> &emsp;
                 <label>
                   Quantity:
-                  <select>
+                  <select value={this.state.flowerTypes[index][1]} onChange={(e) => this.addFlowerType(index, this.state.flowerTypes[index][0], e.target.value, e)}>
                     <option value="1-12">1-12</option>
                     <option value="12-25">12-25</option>
                     <option value="25-50">25-50</option>
@@ -115,9 +149,9 @@ class Sellers extends Component {
                 <br />
               </div>
             ))}
-            <p id="addFlowers" onClick={this.addFlowerType}> + Add another flower type </p>
+            <button type="button" onClick={(e) => this.addFlowerType(this.state.flowerTypes.length, "Roses", "1-12", e)}> + Add another flower type </button>
             <p className="saved"> Add any other important information below </p>
-            <textarea rows="1" cols="50" wrap="physical" name="description"></textarea>
+            <textarea rows="1" cols="50" wrap="physical" name="description" value={this.state.description} onChange={this.changeDescription}></textarea>
             <br />
             <DayPicker
               onDayClick={this.handleDateSelection}
@@ -129,7 +163,7 @@ class Sellers extends Component {
           </form>
 
           <div className="helperbuttons">
-            <SubmitListing/>
+            <SubmitListing parState={this.state} firebase={this.props.firebase}/>
             <Cancel />
           </div>
         </div>
@@ -196,11 +230,33 @@ class Cancel extends Component {
   }
 }
 class SubmitListing extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentWillUnmount = () => {
+    this.props.firebase.listings().off();
+  };
+
+  handleSubmit = (event) => {
+    var parState = JSON.parse(JSON.stringify(this.props.parState));
+    delete parState["count"];
+    let from = parState["dateRange"]["from"];
+    var date = parState["dateRange"]["from"].slice(0, 10) + " to " + parState["dateRange"]["to"].slice(0, 10);
+    delete parState["dateRange"];
+    parState["pickupDate"] = date;
+    this.props.firebase.listings().push().set(parState);
+    alert("Your listing has been submitted!");
+  }
+
   render() {
     return (
-      <a className='getdirections'>Submit Listing</a>
+      <button className='getdirections' type="button" onClick={this.handleSubmit}>Submit Listing</button>
     )
   }
 }
+
+Sellers = withFirebase(Sellers);
 
 export default Sellers;
