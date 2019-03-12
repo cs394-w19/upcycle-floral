@@ -20,7 +20,7 @@ class Sellers extends Component {
        location: "",
        fitsIn: "basket",
        imageLink: "",
-       flowerTypes: [['Roses', "1-12"]],
+       flowerTypes: [['Any', "1-12"]],
        count: 1,
        dateRange: {
         from: null,
@@ -100,6 +100,79 @@ class Sellers extends Component {
         <div className="confirmation">
           <h1>Create a Listing</h1>
           <fieldset>
+            <legend>Arrangement Information</legend>
+            <p className="saved">
+              Please provide as much information about the arrangement as you can
+            </p>
+            <table>
+              <tr>
+                <td>Title of Arrangement</td>
+                <td><input type="text" value={this.state.title} onChange={this.changeTitle} /></td>
+              </tr>
+              <tr>
+                <td colspan="2"><br />Flower Details</td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                 {this.state.flowerTypes.map( (type, index) => (
+                   <div className="flowertype" key={type}>
+                     <label>
+                       Type:&nbsp;
+                       <select value={this.state.flowerTypes[index][0]} onChange={(e) => this.addFlowerType(index, e.target.value, this.state.flowerTypes[index][1], e)}>
+                         <option value="Any">Any</option>
+                         <option value="Roses">Roses</option>
+                         <option value="Tulips">Tulips</option>
+                         <option value="Dandelions">Dandelions</option>
+                         <option value="Other">Other</option>
+                       </select>
+                     </label>
+                     <label>
+                       Quantity:&nbsp;
+                       <select value={this.state.flowerTypes[index][1]} onChange={(e) => this.addFlowerType(index, this.state.flowerTypes[index][0], e.target.value, e)}>
+                         <option value="1-12">1-12</option>
+                         <option value="12-25">12-25</option>
+                         <option value="25-50">25-50</option>
+                         <option value="50+">50+</option>
+                       </select>
+                       &emsp; <span onClick={() => this.removeFlowerType(index)} className="removeFlowerType">X</span>
+                     </label>
+                   </div>
+                  ))}
+                  <button className="addflower" onClick={(e) => this.addFlowerType(this.state.flowerTypes.length, "Any", "1-12", e)}> + Add another flower type </button>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"><br />Image of Arrangement</td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <ImageUploader
+                	withIcon={true}
+                	buttonText='Upload photos'
+                	onChange={this.onDrop}
+                	imgExtension={['.jpg', '.gif', '.png', '.jpeg']}
+                	maxFileSize={5242880}
+                    withPreview={true}
+                    label='Max file size: 5mb, Accepted: .jpg | .png | .gif'
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">How large a container do your flowers require?</td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <select className="sizeselector" value={this.state.fitsIn} onChange={this.changeFitsIn}>
+                    <option value="basket">Basket</option>
+                    <option value="car">Small Car</option>
+                    <option selected value="suv">SUV</option>
+                    <option value="truck">Truck</option>
+                  </select>
+                </td>
+              </tr>
+            </table>
+          </fieldset>
+          <fieldset>
             <legend>Your Information</legend>
             <table>
               <tr>
@@ -125,57 +198,9 @@ class Sellers extends Component {
               </tr>
             </table>
           </fieldset>
-          <ImageUploader
-                	withIcon={true}
-                	buttonText='Upload pictures of your flowers'
-                	onChange={this.onDrop}
-                	imgExtension={['.jpg', '.gif', '.png', '.jpeg']}
-                	maxFileSize={5242880}
-                  withPreview={true}
-                  label='Max file size: 5mb, Accepted: .jpg | .png | .gif'
-            />
-          <p className="saved">
-            Please select the flower type, quantity, and potential pickup dates below
-          </p>
-          <label>
-            Title:
-            <input type="text" value={this.state.title} onChange={this.changeTitle} />
-          </label>
-          <label>
-          How large a container do your flowers require?:
-          <select value={this.state.fitsIn} onChange={this.changeFitsIn}>
-            <option value="basket">Basket</option>
-            <option value="car">Small Car</option>
-            <option selected value="suv">SUV</option>
-            <option value="truck">Truck</option>
-          </select>
-          </label>
           <form onSubmit={this.handleSubmit}>
-            {this.state.flowerTypes.map( (type, index) => (
-              <div key={type}>
-                <label>
-                  Flower Type:
-                  <select value={this.state.flowerTypes[index][0]} onChange={(e) => this.addFlowerType(index, e.target.value, this.state.flowerTypes[index][1], e)}>
-                    <option value="Roses">Roses</option>
-                    <option value="Tulips">Tulips</option>
-                    <option value="Dandelions">Dandelions</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </label> &emsp;
-                <label>
-                  Quantity:
-                  <select value={this.state.flowerTypes[index][1]} onChange={(e) => this.addFlowerType(index, this.state.flowerTypes[index][0], e.target.value, e)}>
-                    <option value="1-12">1-12</option>
-                    <option value="12-25">12-25</option>
-                    <option value="25-50">25-50</option>
-                    <option value="50+">50+</option>
-                  </select>
-                </label>
-                &emsp; <span onClick={() => this.removeFlowerType(index)} className="removeFlowerType">X</span>
-                <br />
-              </div>
-            ))}
-            <button type="button" onClick={(e) => this.addFlowerType(this.state.flowerTypes.length, "Roses", "1-12", e)}> + Add another flower type </button>
+
+
             <p className="saved"> Add any other important information below </p>
             <textarea rows="1" cols="50" wrap="physical" name="description" value={this.state.description} onChange={this.changeDescription}></textarea>
             <br />
@@ -210,6 +235,7 @@ const FlowerTypeSelection = (index, remove) => {
       <label>
         Flower Type:
         <select>
+          <option value="Any">Any</option>
           <option value="Roses">Roses</option>
           <option value="Tulips">Tulips</option>
           <option value="Dandylions">Dandylions</option>
