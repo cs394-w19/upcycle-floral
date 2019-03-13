@@ -142,13 +142,7 @@ class Shelf extends Component {
         {
           title: "Birthday Blooms",
           description: 'This bright arrangement is perfect as a great party centerpiece or to send to a loved one far away.',
-          location: '7033 N Moselle Ave, Chicago, IL 60646',
-          coords: {lat: 42.008077, lng: -87.777476},
-          startTime: new Date('2019-04-21T10:00:00-05:00'),
-          endTime: new Date('2019-04-21T12:00:00-05:00'),
-          originalDate: new Date('2019-04-16'),
-          numberOfFlowers: 50,
-          flowers: [
+          flowers: [ 
             {
               type: "Roses",
               number: 15
@@ -160,16 +154,16 @@ class Shelf extends Component {
               number: 15
             }
           ],
-          image:'lily_static.jpeg'
-        }, {
-          title: "Lily Celebration",
-          description: 'With classic floral colors including red roses and pink lilies, the Rose and Lily Celebration is a wonderful gift to send to a friend or family member for a birthday, get well or anniversary.',
+          image: 'lily_static.jpeg',
+          size: 'Basket',
+          seller: 'Jodi from SMOW',
           location: '7033 N Moselle Ave, Chicago, IL 60646',
           coords: {lat: 42.008077, lng: -87.777476},
           startTime: new Date('2019-04-21T10:00:00-05:00'),
           endTime: new Date('2019-04-21T12:00:00-05:00'),
-          originalDate: new Date('2019-04-16'),
-          numberOfFlowers: 60,
+        }, {
+          title: "Lily Celebration",
+          description: 'With classic floral colors including red roses and pink lilies, the Rose and Lily Celebration is a wonderful gift to send to a friend or family member for a birthday, get well or anniversary.',
           flowers: [
             {
               type: "Roses",
@@ -185,7 +179,13 @@ class Shelf extends Component {
               number: 10
             }
           ],
-          image:'another_static.jpg'
+          image:'another_static.jpg',
+          size: 'Basket',
+          seller: 'Jodi from SMOW',
+          location: '7033 N Moselle Ave, Chicago, IL 60646',
+          coords: {lat: 42.008077, lng: -87.777476},
+          startTime: new Date('2019-04-21T10:00:00-05:00'),
+          endTime: new Date('2019-04-21T12:00:00-05:00'),
         }
       ],
       filters: {
@@ -282,7 +282,7 @@ class Shelf extends Component {
 
 class Listing extends Component {
   goToConfirmation = (data) => {
-    localStorage.setItem('currentListing',data);
+    localStorage.setItem('listing',data);
     window.location.assign('/confirmation');
   };
   render() {

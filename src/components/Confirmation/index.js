@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
-import staticImage from '../../static/images/lily_static.jpeg';
 import AddToCalendar from 'react-add-to-calendar';
 import ConfirmationBanner from '../ConfirmationBanner';
 import { withFirebase } from '../Firebase';
@@ -10,24 +9,29 @@ class Confirmation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "Birthday Blooms",
-      description: 'This bright arrangement is perfect as a great party centerpiece or to send to a loved one far away.',
-      location: '7033 N Moselle Ave, Chicago, IL 60646',
-      startTime: new Date('2019-04-21T10:00:00-05:00'),
-      endTime: new Date('2019-04-21T12:00:00-05:00'),
-      currency: "$",
-      originalValue: 35,
-      purchaseValue: 0,
-      originalDate: new Date('2019-04-16'),
-      numberOfFlowers: 50,
-      showBanner: true,
-      originalUse: "Sanders/Wingo Wedding",
-      estimatedWidth: "12",
-      estimatedLength: "18",
-      estimatedHeight: "20",
-      estimatedWeight:"20",
-      instruction: "Entrance is located on the right side of the building. Please ring the door bell and ask for Sanders to fetch the flowers.",
-      listings: {}
+      listing: {
+        title: "Birthday Blooms",
+        description: 'This bright arrangement is perfect as a great party centerpiece or to send to a loved one far away.',
+        flowers: [ 
+          {
+            type: "Roses",
+            number: 15
+          }, {
+            type: "Carnations",
+            number: 20
+          }, {
+            type: "Mums",
+            number: 15
+          }
+        ],
+        image: 'lily_static.jpeg',
+        size: 'Basket',
+        seller: 'Jodi from SMOW',
+        location: '7033 N Moselle Ave, Chicago, IL 60646',
+        startTime: new Date('2019-04-21T10:00:00-05:00'),
+        endTime: new Date('2019-04-21T12:00:00-05:00'),
+      },
+      showBanner: true
     };
   }
 
@@ -41,33 +45,27 @@ class Confirmation extends Component {
     if (!localStorage.getItem('showBanner')) {
       localStorage.setItem('showBanner', 'False');
     }
-    this.props.firebase.listings().on('value', snapshot => {
-      var data = snapshot.val();
-      this.setState({
-        listings: data
-      });
-     });
   };
 
   render() {
-    let google_link = "https://www.google.com/maps/search/?api=1&query=" + this.state.location.replace(/ /g, "+");
+    let google_link = "https://www.google.com/maps/search/?api=1&query=" + this.state.listing.location.replace(/ /g, "+");
     let event = {
-      title: `"${this.state.title}" Pickup`,
-      description: `Pickup for "${this.state.title}"`,
-      location: this.state.location,
-      startTime: this.state.startTime.toISOString(),
-      endTime: this.state.endTime.toISOString(),
+      title: `"${this.state.listing.title}" Pickup`,
+      description: `Pickup for "${this.state.listing.title}"`,
+      location: this.state.listing.location,
+      startTime: this.state.listing.startTime.toISOString(),
+      endTime: this.state.listing.endTime.toISOString(),
     };
     return (
       <div>
         {this.state.showBanner && <ConfirmationBanner />}
         <div className="confirmation">
           <h1>Your Gift</h1>
-          <img src={staticImage} alt="staticImage"/>
+          <img src={require('../../static/images/'+this.state.listing.image)} alt="staticImage"/>
           <p className="instructions">
-            "{this.state.title}" will be available for pickup {this.state.startTime.getMonth()+1}/{this.state.startTime.getDate()} between {((this.state.startTime.getHours()-1)%12)+1}:{this.state.startTime.getMinutes()<10?"0"+this.state.startTime.getMinutes():this.state.startTime.getMinutes()}{this.state.startTime.getHours()>11?"pm":"am"} and {((this.state.endTime.getHours()-1)%12)+1}:{this.state.endTime.getMinutes()<10?"0"+this.state.endTime.getMinutes():this.state.endTime.getMinutes()}{this.state.endTime.getHours()>11?"pm":"am"}.
+            "{this.state.listing.title}" will be available for pickup {this.state.listing.startTime.getMonth()+1}/{this.state.listing.startTime.getDate()} between {((this.state.listing.startTime.getHours()-1)%12)+1}:{this.state.listing.startTime.getMinutes()<10?"0"+this.state.listing.startTime.getMinutes():this.state.listing.startTime.getMinutes()}{this.state.listing.startTime.getHours()>11?"pm":"am"} and {((this.state.listing.endTime.getHours()-1)%12)+1}:{this.state.listing.endTime.getMinutes()<10?"0"+this.state.listing.endTime.getMinutes():this.state.listing.endTime.getMinutes()}{this.state.listing.endTime.getHours()>11?"pm":"am"}.
           </p>
-          <SeeReservation data={this.state}/>
+          <SeeReservation data={this.state.listing}/>
           <div className="helperbuttons">
             <AddToCalendar event={event}/>
             <GetDirections address={google_link}/>
@@ -80,47 +78,23 @@ class Confirmation extends Component {
 }
 
 class SeeReservation extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      minimize:true
-    };
-    this.toggle = this.toggle.bind(this);
-  }
-  toggle() {
-    this.setState({minimize:(!this.state.minimize)});
-  };
   render() {
     return (
       <div className="seereservation">
-        <hr />
-        <span className="expander" onClick={() => {this.toggle();}}>{this.state.minimize?"▶ Expand":"▼ Hide"} Details</span>
-        <div className={this.state.minimize?"hidden":"viewing"}>
+        <div className="viewing">
           <table>
             <tbody>
               <tr>
                 <td>Number of Flowers:</td>
-                <td>{this.props.data.numberOfFlowers}</td>
-              </tr>
-              <tr>
-                <td>Originally Used For:</td>
-                <td>{this.props.data.originalUse}</td>
-              </tr>
-              <tr>
-                <td>Original Date of Arrangement:</td>
-                <td>{this.props.data.originalDate.getMonth()+1}/{this.props.data.originalDate.getDate()+1}/{this.props.data.originalDate.getFullYear()}</td>
+                <td>(showing flower details here)</td>
               </tr>
               <tr>
                 <td>Pickup Address:</td>
                 <td>{this.props.data.location}</td>
               </tr>
               <tr>
-                <td>Estimated Sizing&Weight:</td>
-                <td>{this.props.data.estimatedWidth}"x{this.props.data.estimatedLength}"x{this.props.data.estimatedHeight}"&{this.props.data.estimatedWeight}lb</td>
-              </tr>
-              <tr>
-                <td>Instruction for Pick Up:</td>
-                <td>{this.props.data.instruction}</td>
+                <td>Additional Information</td>
+                <td>(Additional Information)</td>
               </tr>
             </tbody>
           </table>
