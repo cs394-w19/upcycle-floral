@@ -30,6 +30,7 @@ class Confirmation extends Component {
         location: '7033 N Moselle Ave, Chicago, IL 60646',
         startTime: new Date('2019-04-21T10:00:00-05:00'),
         endTime: new Date('2019-04-21T12:00:00-05:00'),
+        additionalInfo: "Pickup at the front parking lot"
       },
       showBanner: true
     };
@@ -79,22 +80,25 @@ class Confirmation extends Component {
 
 class SeeReservation extends Component {
   render() {
+    let flowers = this.props.data.flowers.map((x,index) => {
+      return (<li>{x.number} {x.type}</li>);
+    });
     return (
       <div className="seereservation">
         <div className="viewing">
           <table>
             <tbody>
               <tr>
-                <td>Number of Flowers:</td>
-                <td>(showing flower details here)</td>
+                <td>Flowers</td>
+                <td><ul>{flowers}</ul></td>
               </tr>
               <tr>
-                <td>Pickup Address:</td>
+                <td>Pickup Address</td>
                 <td>{this.props.data.location}</td>
               </tr>
               <tr>
                 <td>Additional Information</td>
-                <td>(Additional Information)</td>
+                <td>{this.props.data.additionalInfo}</td>
               </tr>
             </tbody>
           </table>

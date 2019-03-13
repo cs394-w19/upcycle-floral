@@ -161,6 +161,7 @@ class Shelf extends Component {
           coords: {lat: 42.008077, lng: -87.777476},
           startTime: new Date('2019-04-21T10:00:00-05:00'),
           endTime: new Date('2019-04-21T12:00:00-05:00'),
+          additionalInfo: "Pickup at the front parking lot"
         }, {
           title: "Lily Celebration",
           description: 'With classic floral colors including red roses and pink lilies, the Rose and Lily Celebration is a wonderful gift to send to a friend or family member for a birthday, get well or anniversary.',
@@ -186,6 +187,7 @@ class Shelf extends Component {
           coords: {lat: 42.008077, lng: -87.777476},
           startTime: new Date('2019-04-21T10:00:00-05:00'),
           endTime: new Date('2019-04-21T12:00:00-05:00'),
+          additionalInfo: "Pickup at the front parking lot"
         }
       ],
       filters: {
