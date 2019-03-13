@@ -57,6 +57,10 @@ class SeeReservation extends Component {
           <table>
             <tbody>
               <tr>
+                <td>Seller</td>
+                <td>{this.props.data.seller}</td>
+              </tr>
+              <tr>
                 <td>Flowers</td>
                 <td><ul>{flowers}</ul></td>
               </tr>
