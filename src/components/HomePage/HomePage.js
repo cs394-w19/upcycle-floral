@@ -122,10 +122,10 @@ class Filters extends Component {
           </ul>
         </div>
         <div className='distanceFilter'>
-          Address: <input placeholder="2145 Sheridan Rd, Evanston, IL 60208" type='text' id='address' /> <br/>
-          Radius: <input type='text' placeholder="50" id='radius' /> Miles <br/>
-          * Leaving this empty will default to a radius of 50 miles
-          <br/><br/>
+          <div>Your Address <input placeholder="2145 Sheridan Rd, Evanston, IL 60208" type='text' id='address' /></div>
+          <div>Search Radius <input type='number' max='999' min='1' size="3" placeholder="50" id='radius' /> Miles <br/>
+          <span className="warning">Leaving this empty will default to a radius of 50 miles</span>
+          </div>
         </div>
         <button onClick={this.updateSearchResults}> Update Search Results </button>
         <div id="spinner"><RingLoader color={'#005ce6'} loading={true} /> Loading.... </div>
