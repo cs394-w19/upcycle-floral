@@ -4,6 +4,7 @@ import './style.css';
 import staticImage from '../../static/images/lily_static.jpeg';
 import AddToCalendar from 'react-add-to-calendar';
 import ConfirmationBanner from '../ConfirmationBanner';
+import { withFirebase } from '../Firebase';
 
 class Confirmation extends Component {
   constructor(props) {
@@ -25,7 +26,8 @@ class Confirmation extends Component {
       estimatedLength: "18",
       estimatedHeight: "20",
       estimatedWeight:"20",
-      instruction: "Entrance is located on the right side of the building. Please ring the door bell and ask for Sanders to fetch the flowers."
+      instruction: "Entrance is located on the right side of the building. Please ring the door bell and ask for Sanders to fetch the flowers.",
+      listings: {}
     };
   }
 
@@ -39,7 +41,13 @@ class Confirmation extends Component {
     if (!localStorage.getItem('showBanner')) {
       localStorage.setItem('showBanner', 'False');
     }
-  }
+    this.props.firebase.listings().on('value', snapshot => {
+      var data = snapshot.val();
+      this.setState({
+        listings: data
+      });
+     });
+  };
 
   render() {
     let google_link = "https://www.google.com/maps/search/?api=1&query=" + this.state.location.replace(/ /g, "+");
@@ -150,5 +158,7 @@ class GetDirections extends Component {
     )
   }
 }
+
+Confirmation= withFirebase(Confirmation);
 
 export default Confirmation;

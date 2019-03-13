@@ -3,6 +3,7 @@ import { RingLoader } from 'react-spinners';
 import { Link } from 'react-router-dom';
 import Header from './../Header/index.js';
 import './style.css';
+import { withFirebase } from '../Firebase';
 
 class HomePage extends Component {
   render() {
@@ -201,7 +202,8 @@ class Shelf extends Component {
           constraint: {searchCoord: {lat: 42.060011, lng: -87.692626}, searchRadius: 50}
         }
       },
-      flowerTypes: ['Roses', 'Lilies', 'Waxflowers', 'Alstroemeria', 'Mums', 'Carnations']
+      flowerTypes: ['Roses', 'Lilies', 'Waxflowers', 'Alstroemeria', 'Mums', 'Carnations'],
+      listings: "hello"
     };
 
     this.calcCrow = this.calcCrow.bind(this);
@@ -253,6 +255,19 @@ class Shelf extends Component {
     this.setState({filters: updatedFilters});
   }
 
+  componentDidMount = () => {
+    this.props.firebase.listings().on('value', snapshot => {
+      var data = snapshot.val();
+      this.setState({
+        listings: data
+      });
+     });
+  };
+
+  componentWillUnmount = () => {
+    this.props.firebase.listings().off();
+  };
+
   render() {
     return (
       <div className="shelf">
@@ -276,5 +291,7 @@ class Listing extends Component {
     );
   }
 }
+
+Shelf = withFirebase(Shelf);
 
 export default HomePage;
