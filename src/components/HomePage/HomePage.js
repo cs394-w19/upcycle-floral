@@ -14,11 +14,8 @@ class HomePage extends Component {
         </Link>
         <Shelf />
         <Link to={`/confirmation`} className="home_link">
-          Click here for confirmation Page!
+          See My Reservation
         </Link>
-        <br/>
-        <p id="showBanner" onClick={()=>localStorage.clear()}> Click to make banner appear for confirmation page </p>
-        <br/>
       </div>
     );
   }
@@ -145,13 +142,13 @@ class Shelf extends Component {
           flowers: [ 
             {
               type: "Roses",
-              number: 15
+              number: "12-25"
             }, {
               type: "Carnations",
-              number: 20
+              number: "12-25"
             }, {
               type: "Mums",
-              number: 15
+              number: "12-25"
             }
           ],
           image: 'lily_static.jpeg',
@@ -168,16 +165,16 @@ class Shelf extends Component {
           flowers: [
             {
               type: "Roses",
-              number: 15
+              number: "12-25"
             }, {
               type: "Lilies",
-              number: 20
+              number: "12-25"
             }, {
               type: "Waxflowers",
-              number: 15
+              number: "12-25"
             }, {
               type: "Alstroemeria",
-              number: 10
+              number: "1-12"
             }
           ],
           image:'another_static.jpg',
@@ -284,17 +281,15 @@ class Shelf extends Component {
 
 class Listing extends Component {
   goToConfirmation = (data) => {
-    localStorage.clear();
     localStorage.setItem('listing',JSON.stringify(data));
     window.location.assign('/details');
   };
   render() {
     return (
-      <div className="listing">
+      <div className="listing" onClick={() => {this.goToConfirmation(this.props.data)}}>
         <h2>{this.props.data.title}</h2>
         <img src={require('../../static/images/'+this.props.data.image)} /><br />
         <p>{this.props.data.description}</p>
-        <a className="claimlisting" onClick={() => {this.goToConfirmation(this.props.data)}}>Claim Listing!</a>
       </div>
     );
   }

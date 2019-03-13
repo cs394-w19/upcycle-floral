@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './style.css';
 import AddToCalendar from 'react-add-to-calendar';
-import ConfirmationBanner from '../ConfirmationBanner';
 import { withFirebase } from '../Firebase';
 
 class Confirmation extends Component {
@@ -10,26 +9,16 @@ class Confirmation extends Component {
     super(props);
     this.state = {
       listing: {},
-      showBanner: true
     };
   }
 
   componentWillMount = () => {
-    if (localStorage.getItem('showBanner') && this.state.showBanner) {
-      this.setState({'showBanner': false})
-    }
     let newData = JSON.parse(localStorage.getItem('listing'));
     // Need to make the string dates date objects
     newData.startTime = new Date(newData.startTime);
     newData.endTime = new Date(newData.endTime);
     this.setState({listing:newData});
   }
-
-  componentDidMount = () => {
-    if (!localStorage.getItem('showBanner')) {
-      localStorage.setItem('showBanner', 'False');
-    }
-  };
 
   render() {
     let google_link = "https://www.google.com/maps/search/?api=1&query=" + this.state.listing.location.replace(/ /g, "+");
@@ -42,17 +31,13 @@ class Confirmation extends Component {
     };
     return (
       <div>
-        {this.state.showBanner && <ConfirmationBanner />}
         <div className="confirmation">
-          <h1>Your Gift</h1>
+          <h1>Details</h1>
           <img src={require('../../static/images/'+this.state.listing.image)} alt="staticImage"/>
-          <p className="instructions">
-            "{this.state.listing.title}" will be available for pickup {this.state.listing.startTime.getMonth()+1}/{this.state.listing.startTime.getDate()} between {((this.state.listing.startTime.getHours()-1)%12)+1}:{this.state.listing.startTime.getMinutes()<10?"0"+this.state.listing.startTime.getMinutes():this.state.listing.startTime.getMinutes()}{this.state.listing.startTime.getHours()>11?"pm":"am"} and {((this.state.listing.endTime.getHours()-1)%12)+1}:{this.state.listing.endTime.getMinutes()<10?"0"+this.state.listing.endTime.getMinutes():this.state.listing.endTime.getMinutes()}{this.state.listing.endTime.getHours()>11?"pm":"am"}.
-          </p>
+          <span className="description">{this.state.listing.description}</span>
           <SeeReservation data={this.state.listing}/>
           <div className="helperbuttons">
-            <AddToCalendar event={event}/>
-            <GetDirections address={google_link}/>
+            <Reserve />
             <Cancel />
           </div>
         </div>
@@ -80,24 +65,16 @@ class SeeReservation extends Component {
                 <td>{this.props.data.location}</td>
               </tr>
               <tr>
+                <td>Pickup Time</td>
+                <td>{this.props.data.startTime.getMonth()+1}/{this.props.data.startTime.getDate()} between {((this.props.data.startTime.getHours()-1)%12)+1}:{this.props.data.startTime.getMinutes()<10?"0"+this.props.data.startTime.getMinutes():this.props.data.startTime.getMinutes()}{this.props.data.startTime.getHours()>11?"pm":"am"} and {((this.props.data.endTime.getHours()-1)%12)+1}:{this.props.data.endTime.getMinutes()<10?"0"+this.props.data.endTime.getMinutes():this.props.data.endTime.getMinutes()}{this.props.data.endTime.getHours()>11?"pm":"am"}</td>
+              </tr>
+              <tr>
                 <td>Additional Information</td>
                 <td>{this.props.data.additionalInfo}</td>
               </tr>
             </tbody>
           </table>
-          <span className="description">{this.props.data.description}</span>
         </div>
-      </div>
-    )
-  }
-}
-
-class SearchMore extends Component {
-  render() {
-    return (
-
-      <div className="button searchmore">
-        <a className="searchmore" href="/"> Back to Search</a>
       </div>
     )
   }
@@ -107,15 +84,19 @@ class Cancel extends Component {
   render() {
     return (
       <div className="button cancel">
-        <a className="cancel" href="/">Cancel Reservation</a>
+        <a className="cancel" href="/">Back to Search</a>
       </div>
     )
   }
 }
-class GetDirections extends Component {
+class Reserve extends Component {
+  reserve = () => {
+    localStorage.setItem('showBanner', 'True');
+    window.location.assign('/confirmation');
+  };
   render() {
     return (
-      <a className='getdirections' href={this.props.address}>Get Directions</a>
+      <a className='reserve' onClick={()=>{this.reserve()}}>Reserve Now!</a>
     )
   }
 }

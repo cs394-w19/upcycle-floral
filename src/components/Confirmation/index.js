@@ -10,13 +10,13 @@ class Confirmation extends Component {
     super(props);
     this.state = {
       listing: {},
-      showBanner: true
+      showBanner: false
     };
   }
 
   componentWillMount = () => {
-    if (localStorage.getItem('showBanner') && this.state.showBanner) {
-      this.setState({'showBanner': false})
+    if (localStorage.getItem('showBanner') === "True") {
+      this.setState({'showBanner': true})
     }
     let newData = JSON.parse(localStorage.getItem('listing'));
     // Need to make the string dates date objects
@@ -26,9 +26,7 @@ class Confirmation extends Component {
   }
 
   componentDidMount = () => {
-    if (!localStorage.getItem('showBanner')) {
-      localStorage.setItem('showBanner', 'False');
-    }
+    localStorage.setItem('showBanner', 'False');
   };
 
   render() {
