@@ -9,7 +9,19 @@ class Confirmation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listing: {},
+      listing: {
+        title: "",
+        description: '',
+        flowers: [],
+        image:'',
+        size: '',
+        seller: '',
+        location: '',
+        coords: {lat: 0, lng: 0},
+        startTime: new Date(),
+        endTime: new Date(),
+        additionalInfo: ""
+      },
       showBanner: false
     };
   }
@@ -19,10 +31,12 @@ class Confirmation extends Component {
       this.setState({'showBanner': true})
     }
     let newData = JSON.parse(localStorage.getItem('listing'));
-    // Need to make the string dates date objects
-    newData.startTime = new Date(newData.startTime);
-    newData.endTime = new Date(newData.endTime);
-    this.setState({listing:newData});
+    if (newData !== null) {
+      // Need to make the string dates date objects
+      newData.startTime = new Date(newData.startTime);
+      newData.endTime = new Date(newData.endTime);
+      this.setState({listing:newData});
+    }
   }
 
   componentDidMount = () => {
@@ -38,6 +52,17 @@ class Confirmation extends Component {
       startTime: this.state.listing.startTime.toISOString(),
       endTime: this.state.listing.endTime.toISOString(),
     };
+    if (this.state.listing.title === "") {
+      return (
+      <div>
+        <div className="confirmation">
+          <h1>No Reservation Yet</h1>
+          <Cancel text="Back to Search"/>
+        </div>
+      </div>
+      );
+    }
+    else {
     return (
       <div>
         {this.state.showBanner && <ConfirmationBanner />}
@@ -51,11 +76,13 @@ class Confirmation extends Component {
           <div className="helperbuttons">
             <AddToCalendar event={event}/>
             <GetDirections address={google_link}/>
-            <Cancel />
+            <SearchMore />
+            <Cancel text="Cancel Reservation"/>
           </div>
         </div>
       </div>
     );
+    }
   }
 }
 
@@ -93,23 +120,25 @@ class SeeReservation extends Component {
 class SearchMore extends Component {
   render() {
     return (
-
-      <div className="button searchmore">
-        <a className="searchmore" href="/"> Back to Search</a>
-      </div>
+      <a className="getdirections" href="/">Back to Search</a>
     )
   }
 }
 
 class Cancel extends Component {
+  cancelEverything = () => {
+    localStorage.clear();
+    window.location.assign("/");
+  };
   render() {
     return (
       <div className="button cancel">
-        <a className="cancel" href="/">Cancel Reservation</a>
+        <a className="cancel" onClick={()=>{this.cancelEverything()}}>{this.props.text}</a>
       </div>
     )
   }
 }
+
 class GetDirections extends Component {
   render() {
     return (
