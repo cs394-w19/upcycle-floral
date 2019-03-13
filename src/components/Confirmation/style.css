@@ -88,7 +88,11 @@
 .seereservation td:nth-child(odd) {
 	text-align:right;
 	padding: 0px 10px;
-	width:55%;
+	max-width:100px;
+}
+.seereservation li {
+	text-align:left;
+	list-style:none;
 }
 .description {
 	font-style:italic;

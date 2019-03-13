@@ -14,11 +14,8 @@ class HomePage extends Component {
         </Link>
         <Shelf />
         <Link to={`/confirmation`} className="home_link">
-          Click here for confirmation Page!
+          See My Reservation
         </Link>
-        <br/>
-        <p id="showBanner" onClick={()=>localStorage.clear()}> Click to make banner appear for confirmation page </p>
-        <br/>
       </div>
     );
   }
@@ -142,50 +139,52 @@ class Shelf extends Component {
         {
           title: "Birthday Blooms",
           description: 'This bright arrangement is perfect as a great party centerpiece or to send to a loved one far away.',
+          flowers: [ 
+            {
+              type: "Roses",
+              number: "12-25"
+            }, {
+              type: "Carnations",
+              number: "12-25"
+            }, {
+              type: "Mums",
+              number: "12-25"
+            }
+          ],
+          image: 'lily_static.jpeg',
+          size: 'Basket',
+          seller: 'Jodi from SMOW',
           location: '7033 N Moselle Ave, Chicago, IL 60646',
           coords: {lat: 42.008077, lng: -87.777476},
           startTime: new Date('2019-04-21T10:00:00-05:00'),
           endTime: new Date('2019-04-21T12:00:00-05:00'),
-          originalDate: new Date('2019-04-16'),
-          numberOfFlowers: 50,
-          flowers: [
-            {
-              type: "Roses",
-              number: 15
-            }, {
-              type: "Carnations",
-              number: 20
-            }, {
-              type: "Mums",
-              number: 15
-            }
-          ],
-          image:'lily_static.jpeg'
+          additionalInfo: "Pickup at the front parking lot"
         }, {
           title: "Lily Celebration",
           description: 'With classic floral colors including red roses and pink lilies, the Rose and Lily Celebration is a wonderful gift to send to a friend or family member for a birthday, get well or anniversary.',
+          flowers: [
+            {
+              type: "Roses",
+              number: "12-25"
+            }, {
+              type: "Lilies",
+              number: "12-25"
+            }, {
+              type: "Waxflowers",
+              number: "12-25"
+            }, {
+              type: "Alstroemeria",
+              number: "1-12"
+            }
+          ],
+          image:'another_static.jpg',
+          size: 'Basket',
+          seller: 'Jodi from SMOW',
           location: '7033 N Moselle Ave, Chicago, IL 60646',
           coords: {lat: 42.008077, lng: -87.777476},
           startTime: new Date('2019-04-21T10:00:00-05:00'),
           endTime: new Date('2019-04-21T12:00:00-05:00'),
-          originalDate: new Date('2019-04-16'),
-          numberOfFlowers: 60,
-          flowers: [
-            {
-              type: "Roses",
-              number: 15
-            }, {
-              type: "Lilies",
-              number: 20
-            }, {
-              type: "Waxflowers",
-              number: 15
-            }, {
-              type: "Alstroemeria",
-              number: 10
-            }
-          ],
-          image:'another_static.jpg'
+          additionalInfo: "Pickup at the front parking lot"
         }
       ],
       filters: {
@@ -281,9 +280,13 @@ class Shelf extends Component {
 }
 
 class Listing extends Component {
+  goToConfirmation = (data) => {
+    localStorage.setItem('listing',JSON.stringify(data));
+    window.location.assign('/details');
+  };
   render() {
     return (
-      <div className="listing">
+      <div className="listing" onClick={() => {this.goToConfirmation(this.props.data)}}>
         <h2>{this.props.data.title}</h2>
         <img src={require('../../static/images/'+this.props.data.image)} /><br />
         <p>{this.props.data.description}</p>

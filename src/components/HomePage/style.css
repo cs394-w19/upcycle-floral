@@ -5,7 +5,7 @@ div p {
 
 .home_link {
 	text-decoration:none;
-	background:#666699; /* Using color "Rajah" as base idea #F7B267 */
+	background:#666699;
 	width:200px;
 	display:block;
 	margin: 10px auto;
@@ -52,7 +52,6 @@ div p {
 .distanceFilter div {
 	padding:3px 5px;
 }
-
 .distanceFilter .warning {
 	font-size:10pt;
 	font-style:italic;
@@ -100,6 +99,17 @@ div p {
 	font-size:11pt;
 	font-style:italic;
 	color:#331313;
+}
+.listing a.claimlisting {
+	padding:8px;
+	border:1px solid #666699;
+	color:#669;
+	border-radius:4px;
+	cursor:pointer;
+}
+.listing a.claimlisting:hover {
+	color:white;
+	background:#669;
 }
 
 .filterToggle {
