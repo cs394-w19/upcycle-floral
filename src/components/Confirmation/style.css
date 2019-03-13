@@ -35,7 +35,7 @@
 }
 
 .button {
-	background:#d6b327; /* Using color "Rajah" as base idea #F7B267 */
+	background:#666699; /* Using color "Rajah" as base idea #F7B267 */
 	width:200px;
 	margin: 15px auto;
 	text-align:center;
@@ -106,7 +106,7 @@ div.hidden {
 	text-align:center;
 }
 .helperbuttons .react-add-to-calendar {
-	background:#d6b327;
+	background:#666699;
 	color:white;
 	display:inline-block;
 	text-align:center;
@@ -142,7 +142,7 @@ div.hidden {
 	text-decoration:underline;
 }
 .helperbuttons .getdirections {
-	background:#d6b327; /* Using color "Rajah" as base idea #F7B267 */
+	background:#666699; /* Using color "Rajah" as base idea #F7B267 */
 	width:200px;
 	display:inline-block;
 	margin: 10px auto;
@@ -160,57 +160,3 @@ a.cancel{
 	color:white;
 	text-decoration: none;
 }
-
-/* Old styling for add-to-calendar and get-direction buttons
-
-
-a.searchmore{
-	color:white;
-    text-decoration: none;
-}
-
-.helperbuttons .react-add-to-calendar {
-	color:black;
-	display:inline-block;
-	margin:10px;
-}
-.helperbuttons .react-add-to-calendar__wrapper {
-	border:1px solid rgba(0,0,0,.3);
-	padding:8px;
-	border-radius:2px;
-	box-shadow:0px 1px 2px rgba(0,0,0,.1);
-}
-.helperbuttons .react-add-to-calendar__dropdown {
-	border:1px solid rgba(0,0,0,.4);
-	box-shadow:0px 1px 3px rgba(0,0,0,.2);
-	margin-top:-3px;
-	background:white;
-}
-.helperbuttons .react-add-to-calendar__dropdown ul {
-	padding:0px;
-	margin:4px;
-}
-.helperbuttons .react-add-to-calendar__dropdown li {
-	list-style:none;
-	padding:3px;
-}
-.helperbuttons .react-add-to-calendar__dropdown li a {
-	text-decoration:none;
-	color:black;
-}
-.helperbuttons .react-add-to-calendar__dropdown li a:hover {
-	text-decoration:none;
-	color:black;
-	background:#ddd;
-}
-.helperbuttons .getdirections {
-	color:black;
-	display:inline-block;
-	margin:10px;
-	border:1px solid rgba(0,0,0,.3);
-	padding:8px;
-	border-radius:2px;
-	box-shadow:0px 1px 2px rgba(0,0,0,.1);
-	text-decoration:none;
-}
- */

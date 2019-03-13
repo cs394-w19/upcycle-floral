@@ -11,7 +11,7 @@
 }
 .confirmation h1 {
 	text-align:center;
-	color:#1a1a66;
+	color:#1c1c39;
 	display:inline-block;
 	padding:4px;
 	border-bottom:2px solid #1a1a66;
@@ -34,6 +34,7 @@
 	margin:5px 10%;
 	font-size:16pt;
 	text-align:center;
+	box-sizing:border-box;
 }
 .confirmation .saved {
 	text-align:center;
@@ -96,7 +97,7 @@ fieldset .fileUploader .fileContainer {
   font-size:11pt;
 }
 .button {
-	background:#d6b327; /* Using color "Rajah" as base idea #F7B267 */
+	background:#666699; /* Using color "Rajah" as base idea #F7B267 */
 	width:200px;
 	margin: 15px auto;
 	text-align:center;
@@ -167,7 +168,7 @@ div.hidden {
 	text-align:center;
 }
 .helperbuttons .react-add-to-calendar {
-	background:#d6b327;
+	background:#666699;
 	color:white;
 	display:inline-block;
 	text-align:center;
@@ -203,7 +204,7 @@ div.hidden {
 	text-decoration:underline;
 }
 .helperbuttons .getdirections {
-	background:#d6b327; /* Using color "Rajah" as base idea #F7B267 */
+	background:#666699; /* Using color "Rajah" as base idea #F7B267 */
 	width:200px;
 	display:inline-block;
 	margin: 10px auto;
