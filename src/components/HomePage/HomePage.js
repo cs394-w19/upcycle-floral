@@ -281,12 +281,17 @@ class Shelf extends Component {
 }
 
 class Listing extends Component {
+  goToConfirmation = (data) => {
+    localStorage.setItem('currentListing',data);
+    window.location.assign('/confirmation');
+  };
   render() {
     return (
       <div className="listing">
         <h2>{this.props.data.title}</h2>
         <img src={require('../../static/images/'+this.props.data.image)} /><br />
         <p>{this.props.data.description}</p>
+        <a className="claimlisting" onClick={() => {this.goToConfirmation(this.props.data)}}>Claim Listing!</a>
       </div>
     );
   }
