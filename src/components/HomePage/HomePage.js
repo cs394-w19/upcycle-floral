@@ -284,8 +284,9 @@ class Shelf extends Component {
 
 class Listing extends Component {
   goToConfirmation = (data) => {
-    localStorage.setItem('listing',data);
-    window.location.assign('/confirmation');
+    localStorage.clear();
+    localStorage.setItem('listing',JSON.stringify(data));
+    window.location.assign('/details');
   };
   render() {
     return (

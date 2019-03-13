@@ -9,29 +9,7 @@ class Confirmation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listing: {
-        title: "Birthday Blooms",
-        description: 'This bright arrangement is perfect as a great party centerpiece or to send to a loved one far away.',
-        flowers: [ 
-          {
-            type: "Roses",
-            number: 15
-          }, {
-            type: "Carnations",
-            number: 20
-          }, {
-            type: "Mums",
-            number: 15
-          }
-        ],
-        image: 'lily_static.jpeg',
-        size: 'Basket',
-        seller: 'Jodi from SMOW',
-        location: '7033 N Moselle Ave, Chicago, IL 60646',
-        startTime: new Date('2019-04-21T10:00:00-05:00'),
-        endTime: new Date('2019-04-21T12:00:00-05:00'),
-        additionalInfo: "Pickup at the front parking lot"
-      },
+      listing: {},
       showBanner: true
     };
   }
@@ -40,6 +18,11 @@ class Confirmation extends Component {
     if (localStorage.getItem('showBanner') && this.state.showBanner) {
       this.setState({'showBanner': false})
     }
+    let newData = JSON.parse(localStorage.getItem('listing'));
+    // Need to make the string dates date objects
+    newData.startTime = new Date(newData.startTime);
+    newData.endTime = new Date(newData.endTime);
+    this.setState({listing:newData});
   }
 
   componentDidMount = () => {
