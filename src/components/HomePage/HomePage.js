@@ -185,7 +185,24 @@ class Shelf extends Component {
           startTime: new Date('2019-04-21T10:00:00-05:00'),
           endTime: new Date('2019-04-21T12:00:00-05:00'),
           additionalInfo: "Pickup at the front parking lot"
-        }
+        }, {
+          title: "Beautiful Carnations",
+          description: '',
+          flowers: [
+            {
+              type: "Any",
+              number: "50+"
+            }
+          ],
+          image:'carnations.png',
+          size: 'SUV',
+          seller: '',
+          location: '2500 Lake Cook Rd, Riverwoods, IL 60015',
+          coords: {lat: 42.154886, lng: -87.886540},
+          startTime: new Date('2019-03-19T17:00:00-05:00'),
+          endTime: new Date('2019-03-19T23:59:00-05:00'),
+          additionalInfo: "Please pick up after 5pm"
+        },
       ],
       filters: {
         flowerType: {
