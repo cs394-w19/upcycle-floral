@@ -5,7 +5,7 @@ class ConfirmationBanner extends Component {
   render() {
     return (
       <div className="confirmationBanner">
-        Nicely Done!
+        Congratulations!
       </div>
     );
   }
