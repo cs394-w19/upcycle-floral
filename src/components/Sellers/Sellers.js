@@ -14,15 +14,15 @@ class Sellers extends Component {
   constructor(props) {
     super(props);
      this.state = {
-       title: "",
+       title: "Beautiful Carnations",
        name:"",
        description: "",
-       location: "",
+       location: "2500 Lake Cook Rd, Riverwoods, IL 60015",
        coords: {},
-       fitsIn: "basket",
+       fitsIn: "SUV",
        imageLink: "",
-       otherInfo: "",
-       flowerTypes: [['Any', "1-12"]],
+       otherInfo: "Please pick up after 5pm",
+       flowerTypes: [['Any', "50+"]],
        count: 1,
        dateRange: {
         from: null,
