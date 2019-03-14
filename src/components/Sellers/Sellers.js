@@ -291,6 +291,8 @@ class SubmitListing extends Component {
   };
 
   handleSubmit = (event) => {
+    window.location.assign("/");
+    return;
     let parState = JSON.parse(JSON.stringify(this.props.parState));
     let parStateObject = this.props.parState
     let addressLocation = parStateObject.location.replace(/ /g, "+");
