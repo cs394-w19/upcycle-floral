@@ -4,6 +4,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+### `npm install`
+
 ### `npm start`
 
 Runs the app in the development mode.<br>
@@ -17,52 +19,71 @@ You will also see any lint errors in the console.
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## SYSTEM REQUIREMENTS
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- node.js v10.15.0
+- firebase v6.5.0
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## How to download and install the code
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Clone the repository to your desktop using git clone or downloading ZIP
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```bash
+$ git clone https://github.com/cs394-w19/upcycle-floral.git [your-local-directory]
+```
+Once you set up the repository cd to the folder and then run 'npm install'
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```bash
+$ cd upcycle-floral
+$ npm install
+```
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## How to build and deploy the app on firebase
+In our case we wil build and deploy our app on firebase.
+### Using firebase
+1. Go to [firebase website](https://firebase.google.com/) and sign up using Google account
+2. Go to [firebase console](firebase website](https://firebase.google.com/)) and Add project.
+3. Project name can be anything and create project. In our case, we are using "abcde-c998a"
+4. Go back to your termainal and run the following to intall firebase globally and initialize firebase: 
+```bash
+$ npm install -g firebase-tools
+$ firebase init
+```
+5. Then select Database, Hosting, and Storage using spacebar and choose the project "abcde-c998a"
+6. Open up database.rules.json and edit
+```json
+{
+  "rules": {
+    ".read": "auth != true",
+    ".write": "auth != true"
+  }
+}
+```
+7. Then, your terminal will ask "What do you want to use as your public directory? (public)". Type "build"
+8. Open another terminal window and do
+```bash
+$ npm run build
+```
+9. Go back to your original terminal where we were setting up firebase. Press enter.
+10. Type 'y' and press enter to 'configured as a single-page app'
+11. Type 'N'to "File build/index.html already exists. Overwrite?"
+12. Run the following
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```bash
+$ firebase deploy
+```
 
-### Code Splitting
+#### Done!
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Platform constraints for development
 
-### Analyzing the Bundle Size
+## Platform constraints for deployment 
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+## Dependencies not handle by app's package manager
 
-### Making a Progressive Web App
+## Current Limitations
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
