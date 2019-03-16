@@ -43,7 +43,7 @@ $ npm install
 
 
 ## How to build and deploy the app on firebase
-
+In our case we wil build and deploy our app on firebase.
 ### Using firebase
 1. Go to [firebase website](https://firebase.google.com/) and sign up using Google account
 2. Go to [firebase console](firebase website](https://firebase.google.com/)) and Add project.
@@ -72,15 +72,11 @@ $ npm run build
 10. Type 'y' and press enter to 'configured as a single-page app'
 11. Type 'N'to "File build/index.html already exists. Overwrite?"
 12. Run the following
+
 ```bash
 $ firebase deploy
 ```
 
-In our case we wil build and deploy our app on firebase.
-```bash
-$ cd upcycle-floral
-$ npm install
-```
 #### Done!
 
 ## Platform constraints for development
