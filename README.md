@@ -78,10 +78,6 @@ $ firebase deploy
 
 #### Done!
 
-## Platform constraints for development
-
-## Platform constraints for deployment
-
 ## Dependencies not handle by app's package manager
 
 We have a continuous integration add on called Travis that automatically deploys our code to firebase.
