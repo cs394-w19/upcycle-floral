@@ -90,11 +90,7 @@ Go to https://travis-ci.org/ , sign into your github account and then enable tra
 
 Then, in your .travis.yml file replace the value in the secure line with the encrypted API key to your firebase!
 
-`deploy:`
-`provider: firebase`
-`skip_cleanup: true`
-`token:`
-  `secure: <YOUR ENCRYPTED API KEY>`
+`secure: <YOUR ENCRYPTED API KEY>`
 
 After this, make a commit and check to see whether Travis shows you any errors!
 
